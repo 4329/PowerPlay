@@ -90,16 +90,16 @@ android {
         release {
             signingConfig signingConfigs.release
 
-            ndk {
+           ndk {
                 abiFilters "armeabi-v7a", "arm64-v8a"
-            }
+             }
         }
         debug {
             debuggable true
             jniDebuggable true
             ndk {
                 abiFilters "armeabi-v7a", "arm64-v8a"
-            }
+             }
         }
     }
 
@@ -125,6 +125,6 @@ repositories {
 dependencies {
     implementation 'org.ftclib.ftclib:core:2.0.1'
     // the following is optional if you want vision
-    implementation 'org.ftclib.ftclib:vision:2.0.1'
+    // implementation 'org.ftclib.ftclib:vision:2.0.1'
 }
 
