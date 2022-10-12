@@ -13,7 +13,7 @@ public class ArmMotorCommand extends CommandBase {
     public ArmMotorCommand(ArmSubsystem ArmSubsystem, DoubleSupplier ArmPowerSupplier){
         armPowerSupplier = ArmPowerSupplier;
         armSubsystem = ArmSubsystem;
-        addRequirements(ArmSubsystem);
+        addRequirements (ArmSubsystem);
     }
 
     @Override

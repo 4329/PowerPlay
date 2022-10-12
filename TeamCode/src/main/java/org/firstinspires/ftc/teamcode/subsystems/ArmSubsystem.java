@@ -5,13 +5,15 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class ArmSubsystem extends SubsystemBase {
-    private DcMotorEx ArmMoter;
+    private DcMotorEx ArmMotor;
 
     public ArmSubsystem(HardwareMap hardwareMap){
-        ArmMoter = hardwareMap.get(DcMotorEx.class, "ArmMotor");
+        ArmMotor = hardwareMap.get(DcMotorEx.class, "ArmMotor");
+        ArmMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        ArmMotor.setTargetPosition(ArmMotor.getCurrentPosition());
     }
 
     public void setPower(double Power){
-        ArmMoter.setPower(Power);
+        ArmMotor.setPower(Power * 0.75);
     }
 }

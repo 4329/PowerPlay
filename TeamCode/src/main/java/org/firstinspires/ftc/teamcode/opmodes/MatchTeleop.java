@@ -7,8 +7,10 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.ArmMotorCommand;
+import org.firstinspires.ftc.teamcode.commands.GrabberCommand;
 import org.firstinspires.ftc.teamcode.commands.MecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
 
 
@@ -18,6 +20,7 @@ public class MatchTeleop extends CommandOpMode {
 
     GamepadEx driver, operator;
     MecanumDriveSubsystem mecanumDriveSubsystem;
+    GrabberSubsystem grabberSubsystem;
 
     @Override
     public void initialize() {
@@ -25,6 +28,7 @@ public class MatchTeleop extends CommandOpMode {
         operator = new GamepadEx(gamepad2);
         mecanumDriveSubsystem = new MecanumDriveSubsystem(hardwareMap, telemetry);
         ArmSubsystem armSubsystem = new ArmSubsystem(hardwareMap);
+        GrabberSubsystem grabberSubsystem = new GrabberSubsystem(hardwareMap);
 
         MecanumDriveCommand driveMecanumCommand = new MecanumDriveCommand(mecanumDriveSubsystem,
                 () -> -driver.getLeftY(),
@@ -33,6 +37,8 @@ public class MatchTeleop extends CommandOpMode {
                 () -> driver.getButton(GamepadKeys.Button.LEFT_BUMPER));
         ArmMotorCommand armMotorCommand = new ArmMotorCommand(armSubsystem,
                 () -> operator.getLeftX());
+        GrabberCommand grabberCommand = new GrabberCommand(grabberSubsystem,
+                () -> operator.getRightY());
 
         // Arm commands
         // - Right Bumper - Go up continuous
@@ -42,7 +48,7 @@ public class MatchTeleop extends CommandOpMode {
         // - B Button - Level 2
         // - Y Button - Level 3
 
-        schedule(driveMecanumCommand, armMotorCommand);
+        schedule(driveMecanumCommand, armMotorCommand, grabberCommand);
     }
 
 
