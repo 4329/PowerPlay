@@ -17,6 +17,6 @@ public class GrabberCommand extends CommandBase {
 
     @Override
     public void execute(){
-        grabberSubsystem.setPower(grabberPower.getAsDouble());
+        grabberSubsystem.hold(grabberPower.getAsDouble());
     }
 }

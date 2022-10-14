@@ -5,14 +5,20 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 
 public class GrabberSubsystem extends SubsystemBase {
-    protected com.qualcomm.robotcore.hardware.CRServo crServo;
+    protected com.qualcomm.robotcore.hardware.CRServo GrabberMotor;
 
     public GrabberSubsystem(HardwareMap hMap) {
-        crServo = hMap.get(com.qualcomm.robotcore.hardware.CRServo.class, "GrabberMotor");
+        GrabberMotor = hMap.get(com.qualcomm.robotcore.hardware.CRServo.class, "GrabberMotor");
     }
 
-    public void setPower(double output) {
-        crServo.setPower(output * 0.5);
+    public void hold(double power) {
+        if (GrabberMotor.getPower() >= 0.7) {
+            GrabberMotor.setPower(power);
+        }
+        else {
+            GrabberMotor.setPower(power * 0);
+        }
     }
 }
+
 

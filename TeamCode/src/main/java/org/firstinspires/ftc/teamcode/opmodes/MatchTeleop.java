@@ -50,7 +50,5 @@ public class MatchTeleop extends CommandOpMode {
 
         schedule(driveMecanumCommand, armMotorCommand, grabberCommand);
     }
-
-
 }
 
