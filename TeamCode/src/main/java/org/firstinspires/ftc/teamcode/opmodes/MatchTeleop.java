@@ -36,7 +36,7 @@ public class MatchTeleop extends CommandOpMode {
                 () -> driver.getLeftX(),
                 () -> driver.getButton(GamepadKeys.Button.LEFT_BUMPER));
         ArmMotorCommand armMotorCommand = new ArmMotorCommand(armSubsystem,
-                () -> operator.getLeftX());
+                () -> operator.getLeftY());
         GrabberCommand grabberCommand = new GrabberCommand(grabberSubsystem,
                 () -> operator.getRightY());
 

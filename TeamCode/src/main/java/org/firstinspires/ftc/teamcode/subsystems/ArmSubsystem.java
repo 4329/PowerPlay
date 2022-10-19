@@ -9,12 +9,13 @@ public class ArmSubsystem extends SubsystemBase {
 
     public ArmSubsystem(HardwareMap hardwareMap){
         ArmMotor = hardwareMap.get(DcMotorEx.class, "ArmMotor");
-        ArmMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        ArmMotor.setTargetPosition(ArmMotor.getCurrentPosition());
+//        ArmMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+//        ArmMotor.setTargetPosition(ArmMotor.getCurrentPosition());
     }
 
     public void setPower(double Power){
-        ArmMotor.setPower(Power * 0.73);
+
+        ArmMotor.setPower(Power * 0.8);
     }
 
 }

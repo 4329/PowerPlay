@@ -12,12 +12,13 @@ public class GrabberSubsystem extends SubsystemBase {
     }
 
     public void hold(double power) {
-        if (GrabberMotor.getPower() >= 0.7) {
-            GrabberMotor.setPower(power);
-        }
-        else {
-            GrabberMotor.setPower(power * 0);
-        }
+//        if (GrabberMotor.getPower() >= 0.7) {
+//            GrabberMotor.setPower(power);
+//        }
+//        else {
+//            GrabberMotor.setPower(power * 0);
+//        }
+        GrabberMotor.setPower(power * 0.7);
     }
 }
 
