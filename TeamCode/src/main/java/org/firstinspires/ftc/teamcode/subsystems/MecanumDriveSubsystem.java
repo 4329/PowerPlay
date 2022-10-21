@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -17,14 +18,18 @@ public class MecanumDriveSubsystem extends SubsystemBase {
 //    private IMUSystem imuSystem;
     private MecanumDrive mecanumDrive;
     private MecanumDriveSubsystem mecanumDriveSubsystem;
+    private Motor leftBackDrive;
+    private Motor rightBackDrive;
+    private Motor rightFrontDrive;
+    private Motor leftFrontDrive;
 
     public MecanumDriveSubsystem(HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
 //        this.imuSystem = imuSystem;
-        Motor leftFrontDrive = new Motor(hardwareMap, "LeftFrontDrive");
-        Motor rightFrontDrive = new Motor(hardwareMap, "RightFrontDrive");
-        Motor leftBackDrive = new Motor(hardwareMap, "LeftBackDrive");
-        Motor rightBackDrive = new Motor(hardwareMap, "RightBackDrive");
+        leftFrontDrive = new Motor(hardwareMap, "LeftFrontDrive");
+        rightFrontDrive = new Motor(hardwareMap, "RightFrontDrive");
+        leftBackDrive = new Motor(hardwareMap, "LeftBackDrive");
+        rightBackDrive = new Motor(hardwareMap, "RightBackDrive");
 
 //        rightFrontDrive.encoder.setDistancePerPulse(distanceInchPerPulse);
 //        leftFrontDrive.encoder.setDistancePerPulse(distanceInchPerPulse);
@@ -39,19 +44,13 @@ public class MecanumDriveSubsystem extends SubsystemBase {
         mecanumDrive = new MecanumDrive(leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive);
     }
 
-//    public void loop() {
-//        drive.driveRobotCentric(
-//                driverOp.getLeftX(),
-//                driverOp.getLeftY(),
-//                driverOp.getRightY()
-//        );
-//    }
 
     public void Drive(double forward, double turn, double strafe){
             mecanumDrive.driveRobotCentric(-strafe, forward, -turn, false);
+    }
 
-            //mecanumDrive.driveRobotCentric(strafe,-turn, forward);
-
+    public double getleftBackDrivePosition (){
+        return leftBackDrive.getCurrentPosition();
     }
 }
 //I learned Lower count case and upper count case
