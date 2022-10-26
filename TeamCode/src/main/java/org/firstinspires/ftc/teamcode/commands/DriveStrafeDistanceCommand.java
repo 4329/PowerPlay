@@ -41,10 +41,10 @@ public class DriveStrafeDistanceCommand extends CommandBase {
     public void execute() {
         switch(strafeDirection){
             case LEFT:
-                mecanumDriveSubsystem.Drive(0,0,1);
+                mecanumDriveSubsystem.Drive(0,0,-1);
                 break;
             case RIGHT:
-                mecanumDriveSubsystem.Drive(0,0,-1);
+                mecanumDriveSubsystem.Drive(0,0,1);
                 break;
         }
     }
