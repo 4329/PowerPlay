@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.teamcode.commands.ArmMotorCommand;
 import org.firstinspires.ftc.teamcode.commands.GrabberCommand;
 import org.firstinspires.ftc.teamcode.commands.MecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.GrabberServoSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
 
@@ -29,6 +31,7 @@ public class MatchTeleop extends CommandOpMode {
         mecanumDriveSubsystem = new MecanumDriveSubsystem(hardwareMap, telemetry);
         ArmSubsystem armSubsystem = new ArmSubsystem(hardwareMap);
         GrabberSubsystem grabberSubsystem = new GrabberSubsystem(hardwareMap);
+        GrabberServoSubsystem grabberServoSubsystem = new GrabberServoSubsystem(hardwareMap);
 
         MecanumDriveCommand driveMecanumCommand = new MecanumDriveCommand(mecanumDriveSubsystem,
                 () -> -driver.getLeftY(),
@@ -39,6 +42,9 @@ public class MatchTeleop extends CommandOpMode {
                 () -> operator.getLeftY());
         GrabberCommand grabberCommand = new GrabberCommand(grabberSubsystem,
                 () -> operator.getRightY());
+        operator.getGamepadButton(GamepadKeys.Button.A).whenHeld(new InstantCommand(grabberServoSubsystem::closingServo,grabberServoSubsystem));
+        operator.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new InstantCommand(grabberServoSubsystem::openingServo,grabberServoSubsystem));
+
 
         // Arm commands
         // - Right Bumper - Go up continuous
