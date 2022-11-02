@@ -23,6 +23,7 @@ public class MatchTeleop extends CommandOpMode {
     GamepadEx driver, operator;
     MecanumDriveSubsystem mecanumDriveSubsystem;
     GrabberSubsystem grabberSubsystem;
+    GrabberServoSubsystem garbberServoSubsystem;
 
     @Override
     public void initialize() {
@@ -33,6 +34,7 @@ public class MatchTeleop extends CommandOpMode {
         GrabberSubsystem grabberSubsystem = new GrabberSubsystem(hardwareMap);
         GrabberServoSubsystem grabberServoSubsystem = new GrabberServoSubsystem(hardwareMap);
 
+
         MecanumDriveCommand driveMecanumCommand = new MecanumDriveCommand(mecanumDriveSubsystem,
                 () -> -driver.getLeftY(),
                 () -> driver.getRightX(),
@@ -42,8 +44,9 @@ public class MatchTeleop extends CommandOpMode {
                 () -> operator.getLeftY());
         GrabberCommand grabberCommand = new GrabberCommand(grabberSubsystem,
                 () -> operator.getRightY());
-        operator.getGamepadButton(GamepadKeys.Button.A).whenHeld(new InstantCommand(grabberServoSubsystem::closingServo,grabberServoSubsystem));
-        operator.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new InstantCommand(grabberServoSubsystem::openingServo,grabberServoSubsystem));
+
+        operator.getGamepadButton(GamepadKeys.Button.A).whileHeld(new InstantCommand(grabberServoSubsystem::closingServo, grabberServoSubsystem));
+        operator.getGamepadButton(GamepadKeys.Button.Y).whileHeld(new InstantCommand(grabberServoSubsystem::openingServo, grabberServoSubsystem));
 
 
         // Arm commands

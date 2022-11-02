@@ -35,13 +35,13 @@ public class GrabberServoSubsystem extends SubsystemBase {
     }
 
     public void closingServo(){
-        leftGrabberServo.setPosition(leftGrabberServo.getPosition() + 0.02);
-        rightGrabberServo.setPosition(rightGrabberServo.getPosition() - 0.02);
+        leftGrabberServo.setPosition(leftGrabberServo.getPosition() + 0.01);
+        rightGrabberServo.setPosition(rightGrabberServo.getPosition() - 0.01);
     }
 
     public void openingServo(){
-        leftGrabberServo.setPosition(leftGrabberServo.getPosition() - 0.1);
-        rightGrabberServo.setPosition(rightGrabberServo.getPosition() + 0.1);
+        leftGrabberServo.setPosition(leftGrabberServo.getPosition() - 0.01);
+        rightGrabberServo.setPosition(rightGrabberServo.getPosition() + 0.01);
     }
 
 
