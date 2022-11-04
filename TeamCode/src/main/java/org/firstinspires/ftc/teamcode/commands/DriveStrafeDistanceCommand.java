@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 import com.arcrobotics.ftclib.command.CommandBase;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
 
 import java.util.function.DoubleSupplier;
@@ -21,6 +24,7 @@ public class DriveStrafeDistanceCommand extends CommandBase {
     static double positionsPerRevolution = countsPerRevolution * gearRatio;
     static double wheelDiameterInches = 100 / 26.54;
     static double wheelCircInches = wheelDiameterInches * Math.PI;
+    private Telemetry telemetry;
 
     public DriveStrafeDistanceCommand(MecanumDriveSubsystem mecanumDriveSubsystem, Direction strafeDirection, double distanceInches) {
         this.mecanumDriveSubsystem = mecanumDriveSubsystem;
@@ -28,7 +32,7 @@ public class DriveStrafeDistanceCommand extends CommandBase {
         DistanceInches = distanceInches;
     }
 
-    private double distanceTraveled(){
+    public double distanceTraveled(){
         return Math.abs((mecanumDriveSubsystem.getleftBackDrivePosition() - startPosition))/ positionsPerRevolution * wheelCircInches;
     }
 
@@ -39,6 +43,8 @@ public class DriveStrafeDistanceCommand extends CommandBase {
 
     @Override
     public void execute() {
+        this.telemetry=telemetry;
+        telemetry.addData("Distance Traveled", distanceTraveled());
         switch(strafeDirection){
             case LEFT:
                 mecanumDriveSubsystem.Drive(0,0,-1);
@@ -48,6 +54,8 @@ public class DriveStrafeDistanceCommand extends CommandBase {
                 break;
         }
     }
+
+
     //it works
 
     @Override

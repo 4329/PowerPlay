@@ -22,10 +22,13 @@ public class RedToLocationOne extends CommandOpMode {
 
                 DriveStrafeDistanceCommand driveLeftStrafeCommand =
                         new DriveStrafeDistanceCommand(mecanumDriveSubsystem,
-                                DriveStrafeDistanceCommand.Direction.LEFT,12);
+                                DriveStrafeDistanceCommand.Direction.LEFT,50);
                 DriveDistanceCommand driveForwardsCommand =
                         new DriveDistanceCommand(mecanumDriveSubsystem,
-                                DriveDistanceCommand.DriveDirection.FORWARDS,12);
+                                DriveDistanceCommand.DriveDirection.FORWARDS,20);
+                DriveDistanceCommand driveStopCommand =
+                        new DriveDistanceCommand(mecanumDriveSubsystem,
+                                DriveDistanceCommand.DriveDirection.STOP,0);
                 schedule(new SequentialCommandGroup(driveLeftStrafeCommand, driveForwardsCommand));
         }
 }

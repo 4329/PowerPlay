@@ -2,12 +2,14 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
 
 public class DriveDistanceCommand extends CommandBase {
     public enum DriveDirection {
         FORWARDS,
-        BACKWARDS
+        BACKWARDS,
+        STOP
     }
     private MecanumDriveSubsystem mecanumDriveSubsystem;
     private DriveDistanceCommand.DriveDirection DriveDirection;
@@ -42,6 +44,9 @@ public class DriveDistanceCommand extends CommandBase {
                 break;
             case BACKWARDS:
                 mecanumDriveSubsystem.Drive(10,0,0);
+                break;
+            case STOP:
+                mecanumDriveSubsystem.Drive(0,0,0);
                 break;
         }
     }
