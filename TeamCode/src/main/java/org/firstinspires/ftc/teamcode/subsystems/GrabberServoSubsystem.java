@@ -19,14 +19,14 @@ public class GrabberServoSubsystem extends SubsystemBase {
 
     public GrabberServoSubsystem(HardwareMap hardwareMap){
 //        this.telemetry=telemetry;
-        rightGrabberServo = new SimpleServo(hardwareMap, "rightGrabberServo", 0,180);
-        leftGrabberServo = new SimpleServo(hardwareMap, "LeftGrabberServo", 0,180);
-        openServo();
+        rightGrabberServo = new SimpleServo(hardwareMap, "rightGrabberServo", 0,90);
+        leftGrabberServo = new SimpleServo(hardwareMap, "LeftGrabberServo", 0,90);
+        closeServo();
     }
 
     public void closeServo(){
-        leftGrabberServo.setPosition(0);
-        rightGrabberServo.setPosition(1);
+        leftGrabberServo.setPosition(0.18);
+        rightGrabberServo.setPosition(0.87);
     }
 
     public void openServo(){
@@ -35,19 +35,28 @@ public class GrabberServoSubsystem extends SubsystemBase {
     }
 
     public void closingServo(){
-        leftGrabberServo.setPosition(leftGrabberServo.getPosition() + 0.01);
-        rightGrabberServo.setPosition(rightGrabberServo.getPosition() - 0.01);
-    }
-
-    public void openingServo(){
         leftGrabberServo.setPosition(leftGrabberServo.getPosition() - 0.01);
         rightGrabberServo.setPosition(rightGrabberServo.getPosition() + 0.01);
     }
 
+    public void openingServo(){
+        if(updateLeftServo() > 0.18 && updateRightServo() < 0.87){
+            leftGrabberServo.setPosition(leftGrabberServo.getPosition() + 0.005);
+            rightGrabberServo.setPosition(rightGrabberServo.getPosition() - 0.005);
+        }
+        else {
+            leftGrabberServo.setPosition(leftGrabberServo.getPosition() + 0.01);
+            rightGrabberServo.setPosition(rightGrabberServo.getPosition() - 0.01);
+        }
+    }
 
 
-    public void updateServo(){
-        leftGrabberServo.getPosition();
-        rightGrabberServo.getPosition();
+
+    public double updateLeftServo(){
+        return leftGrabberServo.getPosition();
+    }
+
+    public double updateRightServo(){
+      return rightGrabberServo.getPosition();
     }
 }

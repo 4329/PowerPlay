@@ -45,8 +45,8 @@ public class MatchTeleop extends CommandOpMode {
         GrabberCommand grabberCommand = new GrabberCommand(grabberSubsystem,
                 () -> operator.getRightY());
 
-        operator.getGamepadButton(GamepadKeys.Button.A).whileHeld(new InstantCommand(grabberServoSubsystem::closingServo, grabberServoSubsystem));
-        operator.getGamepadButton(GamepadKeys.Button.Y).whileHeld(new InstantCommand(grabberServoSubsystem::openingServo, grabberServoSubsystem));
+        operator.getGamepadButton(GamepadKeys.Button.Y).whileHeld(new InstantCommand(grabberServoSubsystem::closingServo, grabberServoSubsystem));
+        operator.getGamepadButton(GamepadKeys.Button.A).whileHeld(new InstantCommand(grabberServoSubsystem::openingServo, grabberServoSubsystem));
 
 
         // Arm commands
