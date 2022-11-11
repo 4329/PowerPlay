@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberServoSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.TelemetryUpdateSubsystem;
 
 
 @TeleOp(name = "Match Teleop", group = "1")
@@ -24,6 +25,7 @@ public class MatchTeleop extends CommandOpMode {
     MecanumDriveSubsystem mecanumDriveSubsystem;
     GrabberSubsystem grabberSubsystem;
     GrabberServoSubsystem garbberServoSubsystem;
+    TelemetryUpdateSubsystem telemetryUpdateSubsystem;
 
     @Override
     public void initialize() {
@@ -33,7 +35,7 @@ public class MatchTeleop extends CommandOpMode {
         ArmSubsystem armSubsystem = new ArmSubsystem(hardwareMap);
         GrabberSubsystem grabberSubsystem = new GrabberSubsystem(hardwareMap);
         GrabberServoSubsystem grabberServoSubsystem = new GrabberServoSubsystem(hardwareMap);
-
+        telemetryUpdateSubsystem = new TelemetryUpdateSubsystem(telemetry);
 
         MecanumDriveCommand driveMecanumCommand = new MecanumDriveCommand(mecanumDriveSubsystem,
                 () -> -driver.getLeftY(),
@@ -45,8 +47,8 @@ public class MatchTeleop extends CommandOpMode {
         GrabberCommand grabberCommand = new GrabberCommand(grabberSubsystem,
                 () -> operator.getRightY());
 
-        operator.getGamepadButton(GamepadKeys.Button.Y).whileHeld(new InstantCommand(grabberServoSubsystem::closingServo, grabberServoSubsystem));
-        operator.getGamepadButton(GamepadKeys.Button.A).whileHeld(new InstantCommand(grabberServoSubsystem::openingServo, grabberServoSubsystem));
+        operator.getGamepadButton(GamepadKeys.Button.A).whileHeld(new InstantCommand(grabberServoSubsystem::closingServo, grabberServoSubsystem));
+        operator.getGamepadButton(GamepadKeys.Button.Y).whileHeld(new InstantCommand(grabberServoSubsystem::openingServo, grabberServoSubsystem));
 
 
         // Arm commands
@@ -58,6 +60,7 @@ public class MatchTeleop extends CommandOpMode {
         // - Y Button - Level 3
 
         schedule(driveMecanumCommand, armMotorCommand, grabberCommand);
+        register(telemetryUpdateSubsystem);
     }
 }
 

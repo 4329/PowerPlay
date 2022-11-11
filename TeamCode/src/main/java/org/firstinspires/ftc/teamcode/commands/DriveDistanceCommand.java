@@ -40,10 +40,10 @@ public class DriveDistanceCommand extends CommandBase {
     public void execute() {
         switch(DriveDirection){
             case FORWARDS:
-                mecanumDriveSubsystem.Drive(-10,0,0);
+                mecanumDriveSubsystem.Drive(-0.2,0,0);
                 break;
             case BACKWARDS:
-                mecanumDriveSubsystem.Drive(10,0,0);
+                mecanumDriveSubsystem.Drive(0.2,0,0);
                 break;
             case STOP:
                 mecanumDriveSubsystem.Drive(0,0,0);

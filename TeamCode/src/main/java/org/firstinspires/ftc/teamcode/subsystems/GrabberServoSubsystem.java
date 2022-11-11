@@ -35,18 +35,18 @@ public class GrabberServoSubsystem extends SubsystemBase {
     }
 
     public void closingServo(){
-        leftGrabberServo.setPosition(leftGrabberServo.getPosition() - 0.01);
-        rightGrabberServo.setPosition(rightGrabberServo.getPosition() + 0.01);
+        leftGrabberServo.setPosition(leftGrabberServo.getPosition() + 0.01);
+        rightGrabberServo.setPosition(rightGrabberServo.getPosition() - 0.01);
     }
 
     public void openingServo(){
-        if(updateLeftServo() > 0.18 && updateRightServo() < 0.87){
-            leftGrabberServo.setPosition(leftGrabberServo.getPosition() + 0.005);
-            rightGrabberServo.setPosition(rightGrabberServo.getPosition() - 0.005);
+        if(updateLeftServo() >= 0.18 && updateRightServo() <= 0.87){
+            leftGrabberServo.setPosition(leftGrabberServo.getPosition() - 0.005);
+            rightGrabberServo.setPosition(rightGrabberServo.getPosition() + 0.005);
         }
         else {
-            leftGrabberServo.setPosition(leftGrabberServo.getPosition() + 0.01);
-            rightGrabberServo.setPosition(rightGrabberServo.getPosition() - 0.01);
+            leftGrabberServo.setPosition(leftGrabberServo.getPosition() - 0.01);
+            rightGrabberServo.setPosition(rightGrabberServo.getPosition() + 0.01);
         }
     }
 

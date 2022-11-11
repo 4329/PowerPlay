@@ -26,9 +26,10 @@ public class DriveStrafeDistanceCommand extends CommandBase {
     static double wheelCircInches = wheelDiameterInches * Math.PI;
     private Telemetry telemetry;
 
-    public DriveStrafeDistanceCommand(MecanumDriveSubsystem mecanumDriveSubsystem, Direction strafeDirection, double distanceInches) {
+    public DriveStrafeDistanceCommand(MecanumDriveSubsystem mecanumDriveSubsystem, Direction strafeDirection, double distanceInches, Telemetry telemetry) {
         this.mecanumDriveSubsystem = mecanumDriveSubsystem;
         this.strafeDirection = strafeDirection;
+        this.telemetry = telemetry;
         DistanceInches = distanceInches;
     }
 
@@ -43,14 +44,13 @@ public class DriveStrafeDistanceCommand extends CommandBase {
 
     @Override
     public void execute() {
-        this.telemetry=telemetry;
         telemetry.addData("Distance Traveled", distanceTraveled());
         switch(strafeDirection){
             case LEFT:
-                mecanumDriveSubsystem.Drive(0,0,-1);
+                mecanumDriveSubsystem.Drive(0,0,-0.2);
                 break;
             case RIGHT:
-                mecanumDriveSubsystem.Drive(0,0,1);
+                mecanumDriveSubsystem.Drive(0,0,0.2);
                 break;
         }
     }
@@ -62,6 +62,8 @@ public class DriveStrafeDistanceCommand extends CommandBase {
     public boolean isFinished() {
         return distanceTraveled() >= DistanceInches;
     }
+
+
 
     @Override
     public void end(boolean interrupted) {
