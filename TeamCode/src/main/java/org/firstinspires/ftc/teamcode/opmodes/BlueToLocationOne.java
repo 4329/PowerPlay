@@ -22,13 +22,19 @@ public class BlueToLocationOne extends CommandOpMode {
 //            schedule(new SequentialCommandGroup(driveDistance.withTimeout(1500)));
         MecanumDriveSubsystem mecanumDriveSubsystem = new MecanumDriveSubsystem(hardwareMap, telemetry);
 
+        DriveStrafeDistanceCommand driveRightStrafeCommand =
+                        new DriveStrafeDistanceCommand(mecanumDriveSubsystem,
+                        DriveStrafeDistanceCommand.Direction.RIGHT,24, telemetry);
         DriveStrafeDistanceCommand driveLeftStrafeCommand =
                 new DriveStrafeDistanceCommand(mecanumDriveSubsystem,
-                        DriveStrafeDistanceCommand.Direction.RIGHT,24, telemetry);
+                        DriveStrafeDistanceCommand.Direction.LEFT,24, telemetry);
         DriveDistanceCommand driveForwardsCommand =
                 new DriveDistanceCommand(mecanumDriveSubsystem,
                         DriveDistanceCommand.DriveDirection.FORWARDS,24);
-        schedule(new SequentialCommandGroup(driveLeftStrafeCommand));
+        DriveDistanceCommand driveBackwardsCommand =
+                new DriveDistanceCommand(mecanumDriveSubsystem,
+                        DriveDistanceCommand.DriveDirection.BACKWARDS,7);
+        schedule(new SequentialCommandGroup(driveRightStrafeCommand, driveBackwardsCommand, driveLeftStrafeCommand, driveForwardsCommand));
         register(telemetryUpdateSubsystem);
     }
 }

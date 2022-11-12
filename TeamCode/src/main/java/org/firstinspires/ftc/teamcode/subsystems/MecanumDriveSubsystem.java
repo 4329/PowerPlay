@@ -53,6 +53,12 @@ public class MecanumDriveSubsystem extends SubsystemBase {
         return leftBackDrive.getCurrentPosition();
     }
 
+    public double getEncoderPosition(){
+        return leftBackDrive.getCurrentPosition();
+    }
 
+    public void periodic() {
+//        telemetry.addData("encoder distance", getEncoderPosition());
+    }
 }
 //I learned Lower count case and upper count case

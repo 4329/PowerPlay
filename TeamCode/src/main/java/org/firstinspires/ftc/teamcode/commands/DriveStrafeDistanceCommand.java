@@ -44,13 +44,13 @@ public class DriveStrafeDistanceCommand extends CommandBase {
 
     @Override
     public void execute() {
-        telemetry.addData("Distance Traveled", distanceTraveled());
+//        telemetry.addData("Distance Traveled", distanceTraveled());
         switch(strafeDirection){
             case LEFT:
-                mecanumDriveSubsystem.Drive(0,0,-0.2);
+                mecanumDriveSubsystem.Drive(0,0,-0.5);
                 break;
             case RIGHT:
-                mecanumDriveSubsystem.Drive(0,0,0.2);
+                mecanumDriveSubsystem.Drive(0,0,0.5);
                 break;
         }
     }

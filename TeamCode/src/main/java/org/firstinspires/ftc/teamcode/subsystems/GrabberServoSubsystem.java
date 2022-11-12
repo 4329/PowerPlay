@@ -17,11 +17,11 @@ public class GrabberServoSubsystem extends SubsystemBase {
     private final ServoEx leftGrabberServo;
     private Telemetry telemetry;
 
-    public GrabberServoSubsystem(HardwareMap hardwareMap){
-//        this.telemetry=telemetry;
+    public GrabberServoSubsystem(HardwareMap hardwareMap, Telemetry telemetry){
+        this.telemetry=telemetry;
         rightGrabberServo = new SimpleServo(hardwareMap, "rightGrabberServo", 0,90);
         leftGrabberServo = new SimpleServo(hardwareMap, "LeftGrabberServo", 0,90);
-        closeServo();
+        openServo();
     }
 
     public void closeServo(){
@@ -59,4 +59,10 @@ public class GrabberServoSubsystem extends SubsystemBase {
     public double updateRightServo(){
       return rightGrabberServo.getPosition();
     }
+
+    public void periodic() {
+//        telemetry.addData("Left Servo", (updateLeftServo()));
+//        telemetry.addData("Right Servo", (updateRightServo()));
+    }
+
 }
