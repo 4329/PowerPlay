@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.TelemetryUpdateSubsystem;
 
-@Autonomous(name = "Blue Complex", group = "2")
 public class PickZoneCommand extends CommandBase {
     TelemetryUpdateSubsystem telemetryUpdateSubsystem;
 
@@ -33,18 +32,18 @@ public class PickZoneCommand extends CommandBase {
         DriveDistanceCommand driveBackwardsCommand =
                 new DriveDistanceCommand(mecanumDriveSubsystem,
                         DriveDistanceCommand.DriveDirection.BACKWARDS, 7);
-        public PickZoneCommand(Number number, Confidence confidence) {
-            if (number = 1 && confidence >= 50) {
-            }
-
-            if (number = 2 && confidence >= 50) {
-            }
-
-            if (number = 3 && confidence >= 50) {
-            } else {
-
-            }
-            schedule(new SequentialCommandGroup(driveLeftStrafeCommand));
-        }
+//        public PickZoneCommand(Number number, Confidence confidence) {
+//            if (number = 1 && confidence >= 50) {
+//            }
+//
+//            if (number = 2 && confidence >= 50) {
+//            }
+//
+//            if (number = 3 && confidence >= 50) {
+//            } else {
+//
+//            }
+//        }
+//            schedule(new SequentialCommandGroup());
     }
 }

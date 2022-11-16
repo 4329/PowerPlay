@@ -39,7 +39,8 @@ public class MecanumDriveCommand extends CommandBase {
                     forwardDrive.getAsDouble(),
                     rotateDrive.getAsDouble(),
                     strafeDrive.getAsDouble());
-        }else {
+        }
+        else {
             mecanumDriveSubsystem.Drive(
                     forwardDrive.getAsDouble()/3,
                     rotateDrive.getAsDouble()/3,
