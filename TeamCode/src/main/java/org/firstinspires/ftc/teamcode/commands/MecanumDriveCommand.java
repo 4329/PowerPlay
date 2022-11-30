@@ -36,15 +36,15 @@ public class MecanumDriveCommand extends CommandBase {
     public void execute() {
         if (!slowMotion.getAsBoolean()) {
             mecanumDriveSubsystem.Drive(
-                    forwardDrive.getAsDouble(),
-                    rotateDrive.getAsDouble(),
-                    strafeDrive.getAsDouble());
-        }
-        else {
-            mecanumDriveSubsystem.Drive(
                     forwardDrive.getAsDouble()/3,
                     rotateDrive.getAsDouble()/3,
                     strafeDrive.getAsDouble()/3);
+        }
+        else {
+            mecanumDriveSubsystem.Drive(
+                    forwardDrive.getAsDouble(),
+                    rotateDrive.getAsDouble(),
+                    strafeDrive.getAsDouble());
         }
     }
 }

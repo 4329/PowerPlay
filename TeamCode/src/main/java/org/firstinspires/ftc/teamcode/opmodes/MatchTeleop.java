@@ -46,8 +46,8 @@ public class MatchTeleop extends CommandOpMode {
         ArmMotorCommand armMotorCommand = new ArmMotorCommand(armSubsystem,
                 () -> operator.getLeftY(),
                 () -> operator.getButton(GamepadKeys.Button.B));
-        GrabberCommand grabberCommand = new GrabberCommand(grabberSubsystem,
-                () -> operator.getRightY());
+//        GrabberCommand grabberCommand = new GrabberCommand(grabberSubsystem,
+//                () -> operator.getRightY());
 
         operator.getGamepadButton(GamepadKeys.Button.A).whileHeld(new InstantCommand(grabberServoSubsystem::closingServo, grabberServoSubsystem));
         operator.getGamepadButton(GamepadKeys.Button.Y).whileHeld(new InstantCommand(grabberServoSubsystem::openingServo, grabberServoSubsystem));
@@ -61,7 +61,9 @@ public class MatchTeleop extends CommandOpMode {
         // - B Button - Level 2
         // - Y Button - Level 3
 
-        schedule(driveMecanumCommand, armMotorCommand, grabberCommand);
+        schedule(driveMecanumCommand, armMotorCommand
+                //grabberCommand
+        );
         register(telemetryUpdateSubsystem);
     }
 }
