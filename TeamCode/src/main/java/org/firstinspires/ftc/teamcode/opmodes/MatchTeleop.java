@@ -43,6 +43,61 @@ public class MatchTeleop extends CommandOpMode {
                 () -> driver.getLeftX(),
                 () -> driver.getButton(GamepadKeys.Button.B),
                 telemetry);
+        driver.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
+                .whenActive(new MecanumDriveCommand(mecanumDriveSubsystem,
+                        0.0, 0.0, -0.35, 0.0, telemetry))
+                .whenInactive(driveMecanumCommand);
+
+        //Normal (;
+        driver.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
+                .and(driver.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).negate())
+                .whenActive(new DriveByPower(mecanumDriveSubsystem,
+                        0.0, 0.0, -0.8,
+                        telemetry))
+                .whenInactive(driveMecanumCommand);
+
+        // D-Pan Right - Strafe Right
+        driver.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
+                .and(driver.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).negate())
+                .whenActive(new DriveByPower(mecDriveSystem,
+                        0.0, 0.0, 0.8,
+                        telemetry))
+                //Sloooooooooooooooooooow
+                .whenInactive(driveMecanumCommand);
+        driver.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
+                .and(driver.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER))
+                .whenActive(new DriveByPower(mecDriveSystem,
+                        0.0, 0.0, 0.35,
+                        telemetry))
+                .whenInactive(driveMecanumCommand);
+        // D-Pad Up - Forward
+        driver.getGamepadButton(GamepadKeys.Button.DPAD_UP)
+                .and(driver.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).negate())
+                .whenActive(new DriveByPower(mecDriveSystem,
+                        -0.75, 0.0, 0.0,
+                        telemetry))
+                .whenInactive(driveMecanumCommand);
+        //Sloooooooooooooooow
+        driver.getGamepadButton(GamepadKeys.Button.DPAD_UP)
+                .and(driver.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER))
+                .whenActive(new DriveByPower(mecDriveSystem,
+                        -0.35, 0.0, 0.0,
+                        telemetry))
+                .whenInactive(driveMecanumCommand);
+        // D-Pad Down - Reverse
+        driver.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                .and(driver.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).negate())
+                .whenActive(new DriveByPower(mecanumDriveSubsystem,
+                        0.75, 0.0, 0.0,
+                        telemetry))
+                .whenInactive(driveMecanumCommand);
+        //Sloooooooooooooow
+        driver.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                .and(driver.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER))
+                .whenActive(new DriveByPower(mecanumDriveSubsystem,
+                        0.35, 0.0, 0.0,
+                        telemetry))
+                .whenInactive(driveMecanumCommand);
         ArmMotorCommand armMotorCommand = new ArmMotorCommand(armSubsystem,
                 () -> operator.getLeftY(),
                 () -> operator.getButton(GamepadKeys.Button.B));
