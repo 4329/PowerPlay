@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.ArmMotorCommand;
 import org.firstinspires.ftc.teamcode.commands.GrabberCommand;
+import org.firstinspires.ftc.teamcode.commands.MecanumDpadCommand;
 import org.firstinspires.ftc.teamcode.commands.MecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberServoSubsystem;
@@ -43,9 +44,66 @@ public class MatchTeleop extends CommandOpMode {
                 () -> driver.getLeftX(),
                 () -> driver.getButton(GamepadKeys.Button.B),
                 telemetry);
+
+        driver.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
+                .and(driver.getGamepadButton(GamepadKeys.Button.B))
+                .whenActive(new MecanumDpadCommand(mecanumDriveSubsystem,
+                        0.0, 0.0, -0.5, telemetry))
+                .whenInactive(driveMecanumCommand);
+
+        driver.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
+                .and(driver.getGamepadButton(GamepadKeys.Button.B).negate())
+                .whenActive(new MecanumDpadCommand(mecanumDriveSubsystem,
+                        0.0, 0.0, -0.8,
+                        telemetry))
+                .whenInactive(driveMecanumCommand);
+
+        driver.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
+                .and(driver.getGamepadButton(GamepadKeys.Button.B).negate())
+                .whenActive(new MecanumDpadCommand(mecanumDriveSubsystem,
+                        0.0, 0.0, 0.8,
+                        telemetry))
+                .whenInactive(driveMecanumCommand);
+
+        driver.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
+                .and(driver.getGamepadButton(GamepadKeys.Button.B))
+                .whenActive(new MecanumDpadCommand(mecanumDriveSubsystem,
+                        0.0, 0.0, 0.35,
+                        telemetry))
+                .whenInactive(driveMecanumCommand);
+
+        driver.getGamepadButton(GamepadKeys.Button.DPAD_UP)
+                .and(driver.getGamepadButton(GamepadKeys.Button.B).negate())
+                .whenActive(new MecanumDpadCommand(mecanumDriveSubsystem,
+                        -0.75, 0.0, 0.0,
+                        telemetry))
+                .whenInactive(driveMecanumCommand);
+
+        driver.getGamepadButton(GamepadKeys.Button.DPAD_UP)
+                .and(driver.getGamepadButton(GamepadKeys.Button.B))
+                .whenActive(new MecanumDpadCommand(mecanumDriveSubsystem,
+                        -0.35, 0.0, 0.0,
+                        telemetry))
+                .whenInactive(driveMecanumCommand);
+
+        driver.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                .and(driver.getGamepadButton(GamepadKeys.Button.B).negate())
+                .whenActive(new MecanumDpadCommand(mecanumDriveSubsystem,
+                        0.75, 0.0, 0.0,
+                        telemetry))
+                .whenInactive(driveMecanumCommand);
+
+        driver.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                .and(driver.getGamepadButton(GamepadKeys.Button.B))
+                .whenActive(new MecanumDpadCommand(mecanumDriveSubsystem,
+                        0.35, 0.0, 0.0,
+                        telemetry))
+                .whenInactive(driveMecanumCommand);
+
         ArmMotorCommand armMotorCommand = new ArmMotorCommand(armSubsystem,
                 () -> operator.getLeftY(),
                 () -> operator.getButton(GamepadKeys.Button.B));
+
 //        GrabberCommand grabberCommand = new GrabberCommand(grabberSubsystem,
 //                () -> operator.getRightY());
 
