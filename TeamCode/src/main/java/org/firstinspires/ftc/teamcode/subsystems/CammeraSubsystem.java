@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+import static org.firstinspires.ftc.robotcore.external.tfod.TfodCurrentGame.LABELS;
 import static org.firstinspires.ftc.robotcore.external.tfod.TfodCurrentGame.TFOD_MODEL_ASSET;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
@@ -16,6 +17,8 @@ import java.util.List;
 
 public class CammeraSubsystem extends SubsystemBase {
 
+    private static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
+
     private static final String[] Labels = {
             "1 Bolt",
             "2 Bulb",
@@ -27,9 +30,8 @@ public class CammeraSubsystem extends SubsystemBase {
     private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
 
+
     public CammeraSubsystem(){
-        int initVuforia;
-        int initTfod;
 
         if (tfod != null) {
             tfod.activate();
@@ -43,10 +45,14 @@ public class CammeraSubsystem extends SubsystemBase {
             tfod.setZoom(1.0, 16.0/9.0);
         }
 
+        if (opModeIsActive()) {
+            while (opModeIsActive()) {
                 if (tfod != null) {
                     // getUpdatedRecognitions() will return null if no new information is available since
                     // the last time that call was made.
-                    List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+                    public void periodic{
+                        List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+                    }
                     if (updatedRecognitions != null) {
                         telemetry.addData("# Objects Detected", updatedRecognitions.size());
 
@@ -68,12 +74,18 @@ public class CammeraSubsystem extends SubsystemBase {
                     }
                 }
             }
+//    public void periodic(){
+//        initVuforia();
+//        initTfod();
+//    }
 
     /**
      * Initialize the Vuforia localization engine.
      */
     private void initVuforia() {
-
+        /*
+         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
+         */
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
@@ -83,6 +95,9 @@ public class CammeraSubsystem extends SubsystemBase {
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
     }
 
+    /**
+     * Initialize the TensorFlow Object Detection engine.
+     */
     private void initTfod() {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -92,6 +107,9 @@ public class CammeraSubsystem extends SubsystemBase {
         tfodParameters.inputSize = 300;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
 
-        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, Labels);
+        // Use loadModelFromAsset() if the TF Model is built in as an asset by Android Studio
+        // Use loadModelFromFile() if you have downloaded a custom team model to the Robot Controller's FLASH.
+        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
+        // tfod.loadModelFromFile(TFOD_MODEL_FILE, LABELS);
     }
 }
