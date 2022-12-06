@@ -48,55 +48,55 @@ public class MatchTeleop extends CommandOpMode {
         driver.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
                 .and(driver.getGamepadButton(GamepadKeys.Button.B))
                 .whenActive(new MecanumDpadCommand(mecanumDriveSubsystem,
-                        0.0, 0.0, -0.5, telemetry))
+                        0.0, 0.0, -1.0, telemetry))
                 .whenInactive(driveMecanumCommand);
 
         driver.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
                 .and(driver.getGamepadButton(GamepadKeys.Button.B).negate())
                 .whenActive(new MecanumDpadCommand(mecanumDriveSubsystem,
-                        0.0, 0.0, -0.8,
+                        0.0, 0.0, -0.333,
                         telemetry))
                 .whenInactive(driveMecanumCommand);
 
         driver.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                 .and(driver.getGamepadButton(GamepadKeys.Button.B).negate())
                 .whenActive(new MecanumDpadCommand(mecanumDriveSubsystem,
-                        0.0, 0.0, 0.8,
+                        0.0, 0.0, 0.333,
                         telemetry))
                 .whenInactive(driveMecanumCommand);
 
         driver.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                 .and(driver.getGamepadButton(GamepadKeys.Button.B))
                 .whenActive(new MecanumDpadCommand(mecanumDriveSubsystem,
-                        0.0, 0.0, 0.35,
+                        0.0, 0.0, 1.0,
                         telemetry))
                 .whenInactive(driveMecanumCommand);
 
         driver.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .and(driver.getGamepadButton(GamepadKeys.Button.B).negate())
                 .whenActive(new MecanumDpadCommand(mecanumDriveSubsystem,
-                        -0.75, 0.0, 0.0,
+                        -0.333, 0.0, 0.0,
                         telemetry))
                 .whenInactive(driveMecanumCommand);
 
         driver.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .and(driver.getGamepadButton(GamepadKeys.Button.B))
                 .whenActive(new MecanumDpadCommand(mecanumDriveSubsystem,
-                        -0.35, 0.0, 0.0,
+                        -1.0, 0.0, 0.0,
                         telemetry))
                 .whenInactive(driveMecanumCommand);
 
         driver.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .and(driver.getGamepadButton(GamepadKeys.Button.B).negate())
                 .whenActive(new MecanumDpadCommand(mecanumDriveSubsystem,
-                        0.75, 0.0, 0.0,
+                        0.333, 0.0, 0.0,
                         telemetry))
                 .whenInactive(driveMecanumCommand);
 
         driver.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .and(driver.getGamepadButton(GamepadKeys.Button.B))
                 .whenActive(new MecanumDpadCommand(mecanumDriveSubsystem,
-                        0.35, 0.0, 0.0,
+                        1.0, 0.0, 0.0,
                         telemetry))
                 .whenInactive(driveMecanumCommand);
 
