@@ -6,8 +6,10 @@ import static org.firstinspires.ftc.robotcore.external.tfod.TfodCurrentGame.LABE
 import static org.firstinspires.ftc.robotcore.external.tfod.TfodCurrentGame.TFOD_MODEL_ASSET;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
@@ -29,6 +31,8 @@ public class CammeraSubsystem extends SubsystemBase {
 
     private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
+    private Telemetry telemetry;
+    private  HardwareMap hardwareMap;
     List<Recognition> updatedRecognitions;
 
     /**
@@ -51,6 +55,7 @@ public class CammeraSubsystem extends SubsystemBase {
      * Initialize the TensorFlow Object Detection engine.
      */
     private void initTfod() {
+        this.telemetry=telemetry;
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
@@ -66,7 +71,7 @@ public class CammeraSubsystem extends SubsystemBase {
     }
 
 
-    public CammeraSubsystem() {
+    public CammeraSubsystem(HardwareMap hardwareMap, Telemetry telemetry) {
         initVuforia();
         initTfod();
     }

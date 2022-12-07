@@ -7,8 +7,10 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
@@ -27,7 +29,7 @@ public class RedBasicCamera extends CommandOpMode{
 
         @Override
         public void initialize() {
-            cammeraSubsystem = new CammeraSubsystem();
+            cammeraSubsystem = new CammeraSubsystem(hardwareMap, telemetry);
             telemetryUpdateSubsystem = new TelemetryUpdateSubsystem(telemetry);
             schedule(new SequentialCommandGroup());
             register(telemetryUpdateSubsystem, cammeraSubsystem);
