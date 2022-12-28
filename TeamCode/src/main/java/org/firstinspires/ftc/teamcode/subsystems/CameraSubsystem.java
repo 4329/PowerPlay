@@ -1,9 +1,8 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 import static org.firstinspires.ftc.robotcore.external.tfod.TfodCurrentGame.LABELS;
-import static org.firstinspires.ftc.robotcore.external.tfod.TfodCurrentGame.TFOD_MODEL_ASSET;
+
+import android.util.Log;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -17,7 +16,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 import java.util.List;
 
-public class CammeraSubsystem extends SubsystemBase {
+public class CameraSubsystem extends SubsystemBase {
 
     private static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
 
@@ -30,7 +29,7 @@ public class CammeraSubsystem extends SubsystemBase {
     private static final String VUFORIA_KEY = "AaxuxUD/////AAABmb6BPHbGkEpZjScMUCBO6ohC2fNW8mzdoCyNq88xLv1mCfKF0KPmUv908XDWyk03Dp4WPAU+R9fI12VuDPmb5NNyImi8TuGjcpcSxlqNzEIzgbZhB439ArVfgDf8VWjgRoaN4780DSnavH/ws5vsBAm/A+zSi79qIAtMcntnrsMW0BZqqtzfBf9t3L1YBCfWbtUt8jUEK4bAP4thlqcrSYTH/qbTOg0Hih+ZWHulci8Zj2MQB8JBLCak1r+w1WGK0BCSTA/kJZZwu2rywOqLer0JGRJa69+K1NGwtcypabGXGVoJfCCoL+eP01HDGol+z6GqmqqQXTYY2dvwbt10ZePBJLV+M1+0gEKS6byj2o4O";
 
     private VuforiaLocalizer vuforia;
-    private TFObjectDetector tfod;
+    private TFObjectDetector tfObjectDetector;
     private Telemetry telemetry;
     private  HardwareMap hardwareMap;
     List<Recognition> updatedRecognitions;
@@ -55,42 +54,50 @@ public class CammeraSubsystem extends SubsystemBase {
      * Initialize the TensorFlow Object Detection engine.
      */
     private void initTfod() {
-        this.telemetry=telemetry;
-        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        int tfodMonitorViewId = this.hardwareMap.appContext.getResources().getIdentifier(
+                "tfodMonitorViewId", "id", this.hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
         tfodParameters.minResultConfidence = 0.75f;
         tfodParameters.isModelTensorFlow2 = true;
         tfodParameters.inputSize = 300;
-        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+        tfObjectDetector = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
 
         // Use loadModelFromAsset() if the TF Model is built in as an asset by Android Studio
         // Use loadModelFromFile() if you have downloaded a custom team model to the Robot Controller's FLASH.
-        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
+        tfObjectDetector.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
         // tfod.loadModelFromFile(TFOD_MODEL_FILE, LABELS);
+        if (tfObjectDetector == null)  Log.e("ROBOT", "initTfod: tfObjectDetector is null");
+        else Log.d("ROBOT", "initTfod: tfObjectDetector is NOT null");
     }
 
 
-    public CammeraSubsystem(HardwareMap hardwareMap, Telemetry telemetry) {
+    public CameraSubsystem(HardwareMap hardwareMap, Telemetry telemetry) {
+        this.hardwareMap=hardwareMap;
+        this.telemetry=telemetry;
         initVuforia();
         initTfod();
     }
 
-    public void Updatecameravalues() {
-        updatedRecognitions = tfod.getUpdatedRecognitions();
+    public void DetectObjects() {
+        List<Recognition> newUpdatedRecognitions=null;
+        if (tfObjectDetector != null)
+            newUpdatedRecognitions = tfObjectDetector.getUpdatedRecognitions();
+
         if (updatedRecognitions != null) {
-             telemetry.addData("# Objects Detected", updatedRecognitions.size());
+            if(newUpdatedRecognitions!= null) updatedRecognitions=newUpdatedRecognitions;
+            this.telemetry.addData("# Objects Detected", updatedRecognitions.size());
             for (Recognition recognition : updatedRecognitions) {
                 telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100 );
             }
         }
         else{
-            telemetry.addLine("camera is called but null");
+            telemetry.addLine("camera is called but no changes");
         }
     }
 
     public void periodic(){
-        Updatecameravalues();
+
+        DetectObjects();
     }
 
 //            public void

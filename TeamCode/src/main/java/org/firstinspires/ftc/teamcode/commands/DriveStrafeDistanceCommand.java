@@ -47,10 +47,10 @@ public class DriveStrafeDistanceCommand extends CommandBase {
 //        telemetry.addData("Distance Traveled", distanceTraveled());
         switch(strafeDirection){
             case LEFT:
-                mecanumDriveSubsystem.Drive(0,0,-0.5);
+                mecanumDriveSubsystem.Drive(0,0,-0.25);
                 break;
             case RIGHT:
-                mecanumDriveSubsystem.Drive(0,0,0.5);
+                mecanumDriveSubsystem.Drive(0,0,0.25);
                 break;
         }
     }

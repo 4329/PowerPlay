@@ -41,6 +41,11 @@ public class MecanumDriveSubsystem extends SubsystemBase {
         leftBackDrive.motor.setDirection(DcMotor.Direction.REVERSE);
         rightBackDrive.motor.setDirection(DcMotor.Direction.REVERSE);
 
+        leftFrontDrive.motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontDrive.motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBackDrive.motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBackDrive.motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         mecanumDrive = new MecanumDrive(leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive);
     }
 

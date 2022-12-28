@@ -33,7 +33,7 @@ public class MatchTeleop extends CommandOpMode {
         driver = new GamepadEx(gamepad1);
         operator = new GamepadEx(gamepad2);
         mecanumDriveSubsystem = new MecanumDriveSubsystem(hardwareMap, telemetry);
-        ArmSubsystem armSubsystem = new ArmSubsystem(hardwareMap);
+        ArmSubsystem armSubsystem = new ArmSubsystem(hardwareMap, telemetry);
         GrabberSubsystem grabberSubsystem = new GrabberSubsystem(hardwareMap);
         GrabberServoSubsystem grabberServoSubsystem = new GrabberServoSubsystem(hardwareMap, telemetry);
         telemetryUpdateSubsystem = new TelemetryUpdateSubsystem(telemetry);
@@ -102,7 +102,7 @@ public class MatchTeleop extends CommandOpMode {
 
         ArmMotorCommand armMotorCommand = new ArmMotorCommand(armSubsystem,
                 () -> operator.getLeftY(),
-                () -> operator.getButton(GamepadKeys.Button.B));
+                () -> operator.getButton(GamepadKeys.Button.RIGHT_BUMPER));
 
 //        GrabberCommand grabberCommand = new GrabberCommand(grabberSubsystem,
 //                () -> operator.getRightY());

@@ -61,8 +61,9 @@ public class GrabberServoSubsystem extends SubsystemBase {
     }
 
     public void periodic() {
-//        telemetry.addData("Left Servo", (updateLeftServo()));
-//        telemetry.addData("Right Servo", (updateRightServo()));
+        telemetry.addData("Left Servo", leftGrabberServo.getPosition());
+        telemetry.addData("Right Servo", rightGrabberServo.getPosition());
     }
 
 }
+
