@@ -22,7 +22,7 @@ public class ArmMotorCommand extends CommandBase {
     @Override
     public void execute() {
         if (!armSlowMode.getAsBoolean()){
-            armSubsystem.setPower(armPowerSupplier.getAsDouble() * 0.5);
+            armSubsystem.setPower(armPowerSupplier.getAsDouble() * 1.0);
         }
         else {
             armSubsystem.setPower(armPowerSupplier.getAsDouble());

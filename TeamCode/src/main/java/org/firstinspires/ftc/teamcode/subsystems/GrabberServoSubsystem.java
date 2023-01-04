@@ -16,6 +16,7 @@ public class GrabberServoSubsystem extends SubsystemBase {
     private final ServoEx rightGrabberServo;
     private final ServoEx leftGrabberServo;
     private Telemetry telemetry;
+    private static final double SERVO_CHANGE = .08;
 
     public GrabberServoSubsystem(HardwareMap hardwareMap, Telemetry telemetry){
         this.telemetry=telemetry;
@@ -35,19 +36,19 @@ public class GrabberServoSubsystem extends SubsystemBase {
     }
 
     public void closingServo(){
-        leftGrabberServo.setPosition(leftGrabberServo.getPosition() + 0.01);
-        rightGrabberServo.setPosition(rightGrabberServo.getPosition() - 0.01);
+        if(updateLeftServo()< 1){
+            leftGrabberServo.setPosition(leftGrabberServo.getPosition() + SERVO_CHANGE);
+            rightGrabberServo.setPosition(rightGrabberServo.getPosition() - SERVO_CHANGE);
+        }
+
     }
 
     public void openingServo(){
-        if(updateLeftServo() >= 0.18 && updateRightServo() <= 0.87){
-            leftGrabberServo.setPosition(leftGrabberServo.getPosition() - 0.005);
-            rightGrabberServo.setPosition(rightGrabberServo.getPosition() + 0.005);
+        if(updateLeftServo() >.5){
+            leftGrabberServo.setPosition(leftGrabberServo.getPosition() - SERVO_CHANGE);
+            rightGrabberServo.setPosition(rightGrabberServo.getPosition() + SERVO_CHANGE);
         }
-        else {
-            leftGrabberServo.setPosition(leftGrabberServo.getPosition() - 0.01);
-            rightGrabberServo.setPosition(rightGrabberServo.getPosition() + 0.01);
-        }
+
     }
 
 
