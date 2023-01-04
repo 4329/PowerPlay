@@ -69,6 +69,7 @@ public class CameraSubsystem extends SubsystemBase {
         // tfod.loadModelFromFile(TFOD_MODEL_FILE, LABELS);
         if (tfObjectDetector == null)  Log.e("ROBOT", "initTfod: tfObjectDetector is null");
         else Log.d("ROBOT", "initTfod: tfObjectDetector is NOT null");
+
     }
 
 
@@ -80,12 +81,13 @@ public class CameraSubsystem extends SubsystemBase {
     }
 
     public void DetectObjects() {
+        tfObjectDetector.activate();
         List<Recognition> newUpdatedRecognitions=null;
-        if (tfObjectDetector != null)
+        if (tfObjectDetector != null) {
             newUpdatedRecognitions = tfObjectDetector.getUpdatedRecognitions();
-
+            if (newUpdatedRecognitions != null) updatedRecognitions=newUpdatedRecognitions;
+        }
         if (updatedRecognitions != null) {
-            if(newUpdatedRecognitions!= null) updatedRecognitions=newUpdatedRecognitions;
             this.telemetry.addData("# Objects Detected", updatedRecognitions.size());
             for (Recognition recognition : updatedRecognitions) {
                 telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100 );
@@ -94,9 +96,12 @@ public class CameraSubsystem extends SubsystemBase {
         else{
             telemetry.addLine("camera is called but no changes");
         }
+        telemetry.update();
+        tfObjectDetector.deactivate();
     }
 
     public void periodic(){
+
     }
 
 //            public void
