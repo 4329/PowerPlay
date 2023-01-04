@@ -62,6 +62,7 @@ public class CameraSubsystem extends SubsystemBase {
         tfodParameters.inputSize = 300;
         tfObjectDetector = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
 
+
         // Use loadModelFromAsset() if the TF Model is built in as an asset by Android Studio
         // Use loadModelFromFile() if you have downloaded a custom team model to the Robot Controller's FLASH.
         tfObjectDetector.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
@@ -96,8 +97,6 @@ public class CameraSubsystem extends SubsystemBase {
     }
 
     public void periodic(){
-
-        DetectObjects();
     }
 
 //            public void

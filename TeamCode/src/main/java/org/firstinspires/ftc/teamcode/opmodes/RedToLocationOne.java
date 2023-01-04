@@ -40,8 +40,7 @@ public class RedToLocationOne extends CommandOpMode {
                 DriveDistanceCommand driveStopCommand =
                         new DriveDistanceCommand(mecanumDriveSubsystem,
                                 DriveDistanceCommand.DriveDirection.STOP,0);
-                // schedule(new SequentialCommandGroup(driveLeftStrafeCommand, driveBackwardsCommand, driveRightStrafeCommand, driveForwardsCommand));
-                schedule(new SequentialCommandGroup(driveForwardsCommand));
+                schedule(new SequentialCommandGroup(driveLeftStrafeCommand, driveBackwardsCommand, driveRightStrafeCommand, driveForwardsCommand));
                 register(telemetryUpdateSubsystem);
         }
 }

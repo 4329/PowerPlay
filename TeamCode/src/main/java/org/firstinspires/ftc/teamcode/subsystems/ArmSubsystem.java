@@ -58,9 +58,10 @@ public class ArmSubsystem extends SubsystemBase {
             }
         }
 
-        if (!isHolding)
+        if (!isHolding) {
             setRunning();
             ArmMotor.set(powerSet);
+        }
 
     }
 

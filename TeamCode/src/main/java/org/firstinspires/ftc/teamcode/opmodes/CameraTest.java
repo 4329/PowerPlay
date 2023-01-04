@@ -9,13 +9,11 @@ import org.firstinspires.ftc.teamcode.subsystems.TelemetryUpdateSubsystem;
 @TeleOp(name = "Camera Test", group = "2")
 public class CameraTest extends CommandOpMode {
 
-
-
     @Override
     public void initialize() {
         CameraSubsystem cameraSubsystem = new CameraSubsystem(hardwareMap,telemetry);
         TelemetryUpdateSubsystem telemetryUpdateSubsystem = new TelemetryUpdateSubsystem(telemetry);
         register(telemetryUpdateSubsystem, cameraSubsystem);
-
     }
+
 }

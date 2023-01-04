@@ -34,8 +34,7 @@ public class BlueToLocationOne extends CommandOpMode {
         DriveDistanceCommand driveBackwardsCommand =
                 new DriveDistanceCommand(mecanumDriveSubsystem,
                         DriveDistanceCommand.DriveDirection.BACKWARDS,7);
-        // schedule(new SequentialCommandGroup(driveRightStrafeCommand, driveBackwardsCommand, driveLeftStrafeCommand, driveForwardsCommand));
-        schedule(new SequentialCommandGroup(driveForwardsCommand));
+        schedule(new SequentialCommandGroup(driveRightStrafeCommand, driveBackwardsCommand, driveLeftStrafeCommand, driveForwardsCommand));
         register(telemetryUpdateSubsystem);
     }
 }
