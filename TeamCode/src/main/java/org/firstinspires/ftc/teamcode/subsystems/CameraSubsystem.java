@@ -19,19 +19,24 @@ import java.util.List;
 public class CameraSubsystem extends SubsystemBase {
 
     private static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
-
-    private static final String[] Labels = {
+    private static final String VUFORIA_KEY = "AaxuxUD/////AAABmb6BPHbGkEpZjScMUCBO6ohC2fNW8mzdoCyNq88xLv1mCfKF0KPmUv908XDWyk03Dp4WPAU+R9fI12VuDPmb5NNyImi8TuGjcpcSxlqNzEIzgbZhB439ArVfgDf8VWjgRoaN4780DSnavH/ws5vsBAm/A+zSi79qIAtMcntnrsMW0BZqqtzfBf9t3L1YBCfWbtUt8jUEK4bAP4thlqcrSYTH/qbTOg0Hih+ZWHulci8Zj2MQB8JBLCak1r+w1WGK0BCSTA/kJZZwu2rywOqLer0JGRJa69+K1NGwtcypabGXGVoJfCCoL+eP01HDGol+z6GqmqqQXTYY2dvwbt10ZePBJLV+M1+0gEKS6byj2o4O";
+    private static final String[] Labeles = {
             "1 Bolt",
             "2 Bulb",
             "3 Panel"
     };
 
-    private static final String VUFORIA_KEY = "AaxuxUD/////AAABmb6BPHbGkEpZjScMUCBO6ohC2fNW8mzdoCyNq88xLv1mCfKF0KPmUv908XDWyk03Dp4WPAU+R9fI12VuDPmb5NNyImi8TuGjcpcSxlqNzEIzgbZhB439ArVfgDf8VWjgRoaN4780DSnavH/ws5vsBAm/A+zSi79qIAtMcntnrsMW0BZqqtzfBf9t3L1YBCfWbtUt8jUEK4bAP4thlqcrSYTH/qbTOg0Hih+ZWHulci8Zj2MQB8JBLCak1r+w1WGK0BCSTA/kJZZwu2rywOqLer0JGRJa69+K1NGwtcypabGXGVoJfCCoL+eP01HDGol+z6GqmqqQXTYY2dvwbt10ZePBJLV+M1+0gEKS6byj2o4O";
+    public enum DriveDirection {
+        Unknown,
+        One,
+        Two,
+        Three
+    }
 
     private VuforiaLocalizer vuforia;
     private TFObjectDetector tfObjectDetector;
     private Telemetry telemetry;
-    private  HardwareMap hardwareMap;
+    private HardwareMap hardwareMap;
     List<Recognition> updatedRecognitions;
 
     /**
@@ -67,42 +72,59 @@ public class CameraSubsystem extends SubsystemBase {
         // Use loadModelFromFile() if you have downloaded a custom team model to the Robot Controller's FLASH.
         tfObjectDetector.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
         // tfod.loadModelFromFile(TFOD_MODEL_FILE, LABELS);
-        if (tfObjectDetector == null)  Log.e("ROBOT", "initTfod: tfObjectDetector is null");
+        if (tfObjectDetector == null) Log.e("ROBOT", "initTfod: tfObjectDetector is null");
         else Log.d("ROBOT", "initTfod: tfObjectDetector is NOT null");
-
     }
 
 
     public CameraSubsystem(HardwareMap hardwareMap, Telemetry telemetry) {
-        this.hardwareMap=hardwareMap;
-        this.telemetry=telemetry;
+        this.hardwareMap = hardwareMap;
+        this.telemetry = telemetry;
         initVuforia();
         initTfod();
     }
 
-    public void DetectObjects() {
+    public void cameraActicate() {
         tfObjectDetector.activate();
-        List<Recognition> newUpdatedRecognitions=null;
+    }
+
+    public void cameraDeactivate() {
+        tfObjectDetector.deactivate();
+    }
+
+    public void detectObjects() {
+        List<Recognition> newUpdatedRecognitions = null;
         if (tfObjectDetector != null) {
             newUpdatedRecognitions = tfObjectDetector.getUpdatedRecognitions();
-            if (newUpdatedRecognitions != null) updatedRecognitions=newUpdatedRecognitions;
+            if (newUpdatedRecognitions != null) updatedRecognitions = newUpdatedRecognitions;
         }
         if (updatedRecognitions != null) {
             this.telemetry.addData("# Objects Detected", updatedRecognitions.size());
             for (Recognition recognition : updatedRecognitions) {
-                telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100 );
+                telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             }
-        }
-        else{
+        } else {
             telemetry.addLine("camera is called but no changes");
         }
         telemetry.update();
-        tfObjectDetector.deactivate();
     }
 
-    public void periodic(){
-
+    public DriveDirection directionChooser(List<Recognition> recognitions) {
+        if (recognitions != null) {
+            Recognition recognition = recognitions.get(0);
+            if (recognition.getLabel() == "1 Bolt") {
+                return DriveDirection.One;
+            } if (recognition.getLabel() == "2 Bulb") {
+                return DriveDirection.Two;
+            } else if (recognition.getLabel() == "3 Panel"){
+                return DriveDirection.Three;
+            }
+        }
+        return DriveDirection.Unknown;
     }
+}
+
+
 
 //            public void
 //                if (tfod != null) {
@@ -126,4 +148,3 @@ public class CameraSubsystem extends SubsystemBase {
 //                        }
 //                        telemetry.update();
 //                    }
-}

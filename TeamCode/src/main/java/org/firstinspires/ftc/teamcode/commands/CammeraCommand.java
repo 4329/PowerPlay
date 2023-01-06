@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.commands;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
@@ -16,8 +14,11 @@ public class CammeraCommand extends CommandBase {
     }
 
     @Override
-    public void execute() {
-        cameraSubsystem.DetectObjects();
+    public void schedule() {
+        cameraSubsystem.cameraActicate();
+        cameraSubsystem.detectObjects();
+        cameraSubsystem.cameraDeactivate();
+
     }
 }
 
