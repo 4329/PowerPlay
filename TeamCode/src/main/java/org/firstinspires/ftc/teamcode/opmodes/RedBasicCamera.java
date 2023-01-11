@@ -20,8 +20,8 @@ public class RedBasicCamera extends CommandOpMode {
     public void initialize() {
         cameraSubsystem = new CameraSubsystem(hardwareMap, telemetry);
         telemetryUpdateSubsystem = new TelemetryUpdateSubsystem(telemetry);
-        cammeraCommand = new CammeraCommand(cameraSubsystem);
-        schedule(cammeraCommand);
+        cammeraCommand = new CammeraCommand(cameraSubsystem, telemetry);
+        schedule(cammeraCommand.withTimeout(25000));
         register(telemetryUpdateSubsystem);
     }
 }

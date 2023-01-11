@@ -14,10 +14,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CameraSubsystem extends SubsystemBase {
 
+    private static final String TAG="ROBOT";
     private static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
     private static final String VUFORIA_KEY = "AaxuxUD/////AAABmb6BPHbGkEpZjScMUCBO6ohC2fNW8mzdoCyNq88xLv1mCfKF0KPmUv908XDWyk03Dp4WPAU+R9fI12VuDPmb5NNyImi8TuGjcpcSxlqNzEIzgbZhB439ArVfgDf8VWjgRoaN4780DSnavH/ws5vsBAm/A+zSi79qIAtMcntnrsMW0BZqqtzfBf9t3L1YBCfWbtUt8jUEK4bAP4thlqcrSYTH/qbTOg0Hih+ZWHulci8Zj2MQB8JBLCak1r+w1WGK0BCSTA/kJZZwu2rywOqLer0JGRJa69+K1NGwtcypabGXGVoJfCCoL+eP01HDGol+z6GqmqqQXTYY2dvwbt10ZePBJLV+M1+0gEKS6byj2o4O";
     private static final String[] Labeles = {
@@ -102,21 +104,38 @@ public class CameraSubsystem extends SubsystemBase {
             this.telemetry.addData("# Objects Detected", updatedRecognitions.size());
             for (Recognition recognition : updatedRecognitions) {
                 telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
+                telemetry.addData("left", recognition.getLeft());
+                telemetry.addData("with", recognition.getWidth());
             }
         } else {
             telemetry.addLine("camera is called but no changes");
         }
-        telemetry.update();
     }
 
-    public DriveDirection directionChooser(List<Recognition> recognitions) {
-        if (recognitions != null) {
-            Recognition recognition = recognitions.get(0);
+    public List<Recognition> removeObjects(List<Recognition> uncleanReconditions){
+        List<Recognition> cleanRecognitions = new ArrayList<Recognition>();
+        if (uncleanReconditions != null) {
+            for (Recognition recognition: uncleanReconditions){
+                if (recognition.getWidth() < 100){
+                    cleanRecognitions.add(recognition);}
+            }
+        }
+        return cleanRecognitions;
+    }
+
+    public DriveDirection directionChooser() {
+        List<Recognition> cleanedUpList=removeObjects(updatedRecognitions);
+        if (cleanedUpList != null && cleanedUpList.size() > 0) {
+            Recognition recognition = cleanedUpList.get(0);
+            Log.i(TAG, "directionChooser: getLabel="+ recognition.getLabel());
             if (recognition.getLabel() == "1 Bolt") {
+                telemetry.addLine("1yxyx");
                 return DriveDirection.One;
-            } if (recognition.getLabel() == "2 Bulb") {
+            } else if (recognition.getLabel() == "2 Bulb") {
+                telemetry.addLine("2txyx");
                 return DriveDirection.Two;
             } else if (recognition.getLabel() == "3 Panel"){
+                telemetry.addLine("3ttttt");
                 return DriveDirection.Three;
             }
         }
