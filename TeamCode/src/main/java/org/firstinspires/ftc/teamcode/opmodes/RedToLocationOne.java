@@ -15,6 +15,11 @@ import org.firstinspires.ftc.teamcode.subsystems.TelemetryUpdateSubsystem;
 public class RedToLocationOne extends CommandOpMode {
 
         TelemetryUpdateSubsystem telemetryUpdateSubsystem;
+        DriveStrafeDistanceCommand driveLeftStrafeCommand;
+        DriveStrafeDistanceCommand driveRightStrafeCommand;
+        DriveDistanceCommand driveForwardsCommand;
+        DriveDistanceCommand driveBackwardsCommand;
+        DriveDistanceCommand driveStopCommand;
 
 
         @Override
@@ -25,19 +30,19 @@ public class RedToLocationOne extends CommandOpMode {
 //            schedule(new SequentialCommandGroup(driveDistance.withTimeout(1500)));
                 MecanumDriveSubsystem mecanumDriveSubsystem = new MecanumDriveSubsystem(hardwareMap, telemetry);
 
-                DriveStrafeDistanceCommand driveRightStrafeCommand =
+                driveRightStrafeCommand =
                         new DriveStrafeDistanceCommand(mecanumDriveSubsystem,
                                 DriveStrafeDistanceCommand.Direction.RIGHT,5, telemetry);
-                DriveStrafeDistanceCommand driveLeftStrafeCommand =
+                driveLeftStrafeCommand =
                         new DriveStrafeDistanceCommand(mecanumDriveSubsystem,
                                 DriveStrafeDistanceCommand.Direction.LEFT,5, telemetry);
-                DriveDistanceCommand driveForwardsCommand =
+                driveForwardsCommand =
                         new DriveDistanceCommand(mecanumDriveSubsystem,
                                 DriveDistanceCommand.DriveDirection.FORWARDS,24);
-                DriveDistanceCommand driveBackwardsCommand =
+                driveBackwardsCommand =
                         new DriveDistanceCommand(mecanumDriveSubsystem,
                                 DriveDistanceCommand.DriveDirection.BACKWARDS,7);
-                DriveDistanceCommand driveStopCommand =
+                driveStopCommand =
                         new DriveDistanceCommand(mecanumDriveSubsystem,
                                 DriveDistanceCommand.DriveDirection.STOP,0);
                 schedule(new SequentialCommandGroup(driveLeftStrafeCommand, driveBackwardsCommand, driveRightStrafeCommand, driveForwardsCommand));

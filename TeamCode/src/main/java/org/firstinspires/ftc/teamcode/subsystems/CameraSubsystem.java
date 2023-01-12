@@ -19,7 +19,7 @@ import java.util.List;
 
 public class CameraSubsystem extends SubsystemBase {
 
-    private static final String TAG="ROBOT";
+    private static final String TAG = "ROBOT";
     private static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
     private static final String VUFORIA_KEY = "AaxuxUD/////AAABmb6BPHbGkEpZjScMUCBO6ohC2fNW8mzdoCyNq88xLv1mCfKF0KPmUv908XDWyk03Dp4WPAU+R9fI12VuDPmb5NNyImi8TuGjcpcSxlqNzEIzgbZhB439ArVfgDf8VWjgRoaN4780DSnavH/ws5vsBAm/A+zSi79qIAtMcntnrsMW0BZqqtzfBf9t3L1YBCfWbtUt8jUEK4bAP4thlqcrSYTH/qbTOg0Hih+ZWHulci8Zj2MQB8JBLCak1r+w1WGK0BCSTA/kJZZwu2rywOqLer0JGRJa69+K1NGwtcypabGXGVoJfCCoL+eP01HDGol+z6GqmqqQXTYY2dvwbt10ZePBJLV+M1+0gEKS6byj2o4O";
     private static final String[] Labeles = {
@@ -112,29 +112,30 @@ public class CameraSubsystem extends SubsystemBase {
         }
     }
 
-    public List<Recognition> removeObjects(List<Recognition> uncleanReconditions){
+    public List<Recognition> removeObjects(List<Recognition> uncleanReconditions) {
         List<Recognition> cleanRecognitions = new ArrayList<Recognition>();
         if (uncleanReconditions != null) {
-            for (Recognition recognition: uncleanReconditions){
-                if (recognition.getWidth() < 100){
-                    cleanRecognitions.add(recognition);}
+            for (Recognition recognition : uncleanReconditions) {
+                if (recognition.getWidth() < 100) {
+                    cleanRecognitions.add(recognition);
+                }
             }
         }
         return cleanRecognitions;
     }
 
     public DriveDirection directionChooser() {
-        List<Recognition> cleanedUpList=removeObjects(updatedRecognitions);
+        List<Recognition> cleanedUpList = removeObjects(updatedRecognitions);
         if (cleanedUpList != null && cleanedUpList.size() > 0) {
             Recognition recognition = cleanedUpList.get(0);
-            Log.i(TAG, "directionChooser: getLabel="+ recognition.getLabel());
+            Log.i(TAG, "directionChooser: getLabel=" + recognition.getLabel());
             if (recognition.getLabel() == "1 Bolt") {
                 telemetry.addLine("1yxyx");
                 return DriveDirection.One;
             } else if (recognition.getLabel() == "2 Bulb") {
                 telemetry.addLine("2txyx");
                 return DriveDirection.Two;
-            } else if (recognition.getLabel() == "3 Panel"){
+            } else if (recognition.getLabel() == "3 Panel") {
                 telemetry.addLine("3ttttt");
                 return DriveDirection.Three;
             }
@@ -142,28 +143,3 @@ public class CameraSubsystem extends SubsystemBase {
         return DriveDirection.Unknown;
     }
 }
-
-
-
-//            public void
-//                if (tfod != null) {
-//                    // getUpdatedRecognitions() will return null if no new information is available since
-//                    // the last time that call was made.
-//
-//
-//
-//                        // step through the list of recognitions and display image position/size information for each one
-//                        // Note: "Image number" refers to the randomized image orientation/number
-//                        for (Recognition recognition : updatedRecognitions) {
-//                            double col = (recognition.getLeft() + recognition.getRight()) / 2 ;
-//                            double row = (recognition.getTop()  + recognition.getBottom()) / 2 ;
-//                            double width  = Math.abs(recognition.getRight() - recognition.getLeft()) ;
-//                            double height = Math.abs(recognition.getTop()  - recognition.getBottom()) ;
-//
-//
-//                            telemetry.addData(""," ");
-//                            telemetry.addData("- Position (Row/Col)","%.0f / %.0f", row, col);
-//                            telemetry.addData("- Size (Width/Height)","%.0f / %.0f", width, height);
-//                        }
-//                        telemetry.update();
-//                    }
