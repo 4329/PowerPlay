@@ -22,7 +22,7 @@ public class DriveStrafeDistanceCommand extends CommandBase {
     static double countsPerRevolution = 28;
     static double gearRatio = 20;
     static double positionsPerRevolution = countsPerRevolution * gearRatio;
-    static double wheelDiameterInches = 100 / 26.54;
+    static double wheelDiameterInches = 100 / 25.4;
     static double wheelCircInches = wheelDiameterInches * Math.PI;
     private Telemetry telemetry;
 
@@ -30,11 +30,11 @@ public class DriveStrafeDistanceCommand extends CommandBase {
         this.mecanumDriveSubsystem = mecanumDriveSubsystem;
         this.strafeDirection = strafeDirection;
         this.telemetry = telemetry;
-        DistanceInches = distanceInches;
+        this.DistanceInches = distanceInches;
     }
 
     public double distanceTraveled(){
-        return Math.abs((mecanumDriveSubsystem.getleftBackDrivePosition() - startPosition))/ positionsPerRevolution * wheelCircInches;
+        return Math.abs(mecanumDriveSubsystem.getleftBackDrivePosition() - startPosition)/ positionsPerRevolution * wheelCircInches;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class DriveStrafeDistanceCommand extends CommandBase {
 
     @Override
     public void execute() {
-//        telemetry.addData("Distance Traveled", distanceTraveled());
+        telemetry.addData("Distance Traveled", distanceTraveled());
         switch(strafeDirection){
             case LEFT:
                 mecanumDriveSubsystem.Drive(0,0,-0.25);
@@ -68,6 +68,5 @@ public class DriveStrafeDistanceCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         mecanumDriveSubsystem.Drive(0,0,0);
-
     }
 }

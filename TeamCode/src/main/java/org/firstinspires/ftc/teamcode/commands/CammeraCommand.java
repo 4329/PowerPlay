@@ -34,10 +34,10 @@ public class CammeraCommand extends CommandBase {
         cameraSubsystem.cameraActicate();
         driveRightStrafeCommand =
                 new DriveStrafeDistanceCommand(mecanumDriveSubsystem,
-                        DriveStrafeDistanceCommand.Direction.RIGHT,5, telemetry);
+                        DriveStrafeDistanceCommand.Direction.RIGHT,24, telemetry);
         driveLeftStrafeCommand =
                 new DriveStrafeDistanceCommand(mecanumDriveSubsystem,
-                        DriveStrafeDistanceCommand.Direction.LEFT,5, telemetry);
+                        DriveStrafeDistanceCommand.Direction.LEFT,24, telemetry);
         driveForwardsCommand =
                 new DriveDistanceCommand(mecanumDriveSubsystem,
                         DriveDistanceCommand.DriveDirection.FORWARDS,24);
@@ -85,8 +85,10 @@ public class CammeraCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        if (interrupted) {
+            CommandScheduler.getInstance().schedule(new SequentialCommandGroup(driveForwardsCommand));
+        }
         cameraSubsystem.cameraDeactivate();
-
     }
 }
 
