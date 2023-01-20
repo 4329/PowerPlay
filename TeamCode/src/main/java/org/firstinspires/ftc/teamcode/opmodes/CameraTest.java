@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
@@ -13,7 +14,9 @@ public class CameraTest extends CommandOpMode {
     public void initialize() {
         CameraSubsystem cameraSubsystem = new CameraSubsystem(hardwareMap,telemetry);
         TelemetryUpdateSubsystem telemetryUpdateSubsystem = new TelemetryUpdateSubsystem(telemetry);
+        schedule(new InstantCommand(cameraSubsystem::cameraActicate));
         register(telemetryUpdateSubsystem, cameraSubsystem);
     }
+
 
 }

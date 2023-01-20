@@ -20,12 +20,29 @@ import java.util.List;
 public class CameraSubsystem extends SubsystemBase {
 
     private static final String TAG = "ROBOT";
-    private static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
+     private static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
+      private static final String TFOD_MODEL_ASSET_CUSTOM = "PowerPlay-10868-Model1.tflite";
+//    private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/models/model1a.tflite";
+    private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/models/model1a.tflite";
     private static final String VUFORIA_KEY = "AaxuxUD/////AAABmb6BPHbGkEpZjScMUCBO6ohC2fNW8mzdoCyNq88xLv1mCfKF0KPmUv908XDWyk03Dp4WPAU+R9fI12VuDPmb5NNyImi8TuGjcpcSxlqNzEIzgbZhB439ArVfgDf8VWjgRoaN4780DSnavH/ws5vsBAm/A+zSi79qIAtMcntnrsMW0BZqqtzfBf9t3L1YBCfWbtUt8jUEK4bAP4thlqcrSYTH/qbTOg0Hih+ZWHulci8Zj2MQB8JBLCak1r+w1WGK0BCSTA/kJZZwu2rywOqLer0JGRJa69+K1NGwtcypabGXGVoJfCCoL+eP01HDGol+z6GqmqqQXTYY2dvwbt10ZePBJLV+M1+0gEKS6byj2o4O";
     private static final String[] Labeles = {
             "1 Bolt",
             "2 Bulb",
             "3 Panel"
+    };
+    private static final String[] Labels_Custom_ZoneOnly = {
+            "Z1",
+            "Z2",
+            "Z3"
+    };
+
+    private static final String[] CustomLabeles = {
+            "BlueStack",
+            "Pole",
+            "RedStack",
+            "Z1",
+            "Z2",
+            "Z3"
     };
 
     public enum DriveDirection {
@@ -64,7 +81,7 @@ public class CameraSubsystem extends SubsystemBase {
         int tfodMonitorViewId = this.hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", this.hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfodParameters.minResultConfidence = 0.75f;
+        tfodParameters.minResultConfidence = 0.25f;
         tfodParameters.isModelTensorFlow2 = true;
         tfodParameters.inputSize = 300;
         tfObjectDetector = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
@@ -72,8 +89,10 @@ public class CameraSubsystem extends SubsystemBase {
 
         // Use loadModelFromAsset() if the TF Model is built in as an asset by Android Studio
         // Use loadModelFromFile() if you have downloaded a custom team model to the Robot Controller's FLASH.
-        tfObjectDetector.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
-        // tfod.loadModelFromFile(TFOD_MODEL_FILE, LABELS);
+//        tfObjectDetector.loadModelFromAsset(TFOD_MODEL_ASSET, Labeles);
+//        tfObjectDetector.loadModelFromFile(TFOD_MODEL_FILE, CustomLabeles);
+//        tfObjectDetector.loadModelFromAsset(TFOD_MODEL_ASSET_CUSTOM, CustomLabeles);
+        tfObjectDetector.loadModelFromFile(TFOD_MODEL_FILE, CustomLabeles);
         if (tfObjectDetector == null) Log.e("ROBOT", "initTfod: tfObjectDetector is null");
         else Log.d("ROBOT", "initTfod: tfObjectDetector is NOT null");
     }
@@ -102,7 +121,7 @@ public class CameraSubsystem extends SubsystemBase {
         }
         if (updatedRecognitions != null) {
             this.telemetry.addData("# Objects Detected", updatedRecognitions.size());
-            for (Recognition recognition : updatedRecognitions) {
+            for (Recognition recognition : removeObjects(updatedRecognitions)) {
                 telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
                 telemetry.addData("left", recognition.getLeft());
                 telemetry.addData("with", recognition.getWidth());
@@ -116,7 +135,7 @@ public class CameraSubsystem extends SubsystemBase {
         List<Recognition> cleanRecognitions = new ArrayList<Recognition>();
         if (uncleanReconditions != null) {
             for (Recognition recognition : uncleanReconditions) {
-                if (recognition.getWidth() < 100) {
+                if (recognition.getWidth() < 100 && recognition.getLabel().charAt(0) == 'Z') {
                     cleanRecognitions.add(recognition);
                 }
             }
@@ -124,22 +143,54 @@ public class CameraSubsystem extends SubsystemBase {
         return cleanRecognitions;
     }
 
+//    public DriveDirection directionChooser() {
+//        List<Recognition> cleanedUpList = removeObjects(updatedRecognitions);
+//        if (cleanedUpList != null && cleanedUpList.size() > 0) {
+//            Recognition recognition = cleanedUpList.get(0);
+//            Log.i(TAG, "directionChooser: getLabel=" + recognition.getLabel());
+////            if (recognition.getLabel() == "1 Bolt" || recognition.getLabel() == "Z1") {
+//                if (recognition.getLabel() == "1 Bolt") {
+//                    telemetry.addLine("1yxyx");
+//                return DriveDirection.One;
+//            } else if (recognition.getLabel() == "2 Bulb") {
+//                telemetry.addLine("2txyx");
+//                return DriveDirection.Two;
+//            } else if (recognition.getLabel() == "3 Panel") {
+//                telemetry.addLine("3ttttt");
+//                return DriveDirection.Three;
+//            }
+//        }
+//        return DriveDirection.Unknown;
+//    }
+
     public DriveDirection directionChooser() {
         List<Recognition> cleanedUpList = removeObjects(updatedRecognitions);
         if (cleanedUpList != null && cleanedUpList.size() > 0) {
             Recognition recognition = cleanedUpList.get(0);
             Log.i(TAG, "directionChooser: getLabel=" + recognition.getLabel());
-            if (recognition.getLabel() == "1 Bolt") {
-                telemetry.addLine("1yxyx");
+            if (recognition.getLabel() == "Z1") {
+                telemetry.addLine("one dd is called");
                 return DriveDirection.One;
-            } else if (recognition.getLabel() == "2 Bulb") {
-                telemetry.addLine("2txyx");
+            } else if (recognition.getLabel() == "Z2") {
+                telemetry.addLine("two dd is called");
                 return DriveDirection.Two;
-            } else if (recognition.getLabel() == "3 Panel") {
-                telemetry.addLine("3ttttt");
+            } else if (recognition.getLabel() == "Z3") {
+                telemetry.addLine("three dd is called");
                 return DriveDirection.Three;
             }
         }
         return DriveDirection.Unknown;
+    }
+
+    @Override
+    public void periodic() {
+        detectObjects();
+//        if (updatedRecognitions != null) {
+//            telemetry.addData("Recog.size()",updatedRecognitions.size());
+//            for (Recognition recog : updatedRecognitions) {
+//                telemetry.addData("Label:", recog.getLabel());
+//            }
+//        }
+
     }
 }

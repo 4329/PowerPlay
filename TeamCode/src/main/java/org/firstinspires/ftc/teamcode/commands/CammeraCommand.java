@@ -34,10 +34,10 @@ public class CammeraCommand extends CommandBase {
         cameraSubsystem.cameraActicate();
         driveRightStrafeCommand =
                 new DriveStrafeDistanceCommand(mecanumDriveSubsystem,
-                        DriveStrafeDistanceCommand.Direction.RIGHT,24, telemetry);
+                        DriveStrafeDistanceCommand.Direction.RIGHT,23, telemetry);
         driveLeftStrafeCommand =
                 new DriveStrafeDistanceCommand(mecanumDriveSubsystem,
-                        DriveStrafeDistanceCommand.Direction.LEFT,24, telemetry);
+                        DriveStrafeDistanceCommand.Direction.LEFT,25, telemetry);
         driveForwardsCommand =
                 new DriveDistanceCommand(mecanumDriveSubsystem,
                         DriveDistanceCommand.DriveDirection.FORWARDS,24);
