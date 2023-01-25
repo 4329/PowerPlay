@@ -26,8 +26,8 @@ public class GrabberServoSubsystem extends SubsystemBase {
     }
 
     public void closeServo(){
-        leftGrabberServo.setPosition(0.18);
-        rightGrabberServo.setPosition(0.87);
+        leftGrabberServo.setPosition(1.0);
+        rightGrabberServo.setPosition(0.0);
     }
 
     public void openServo(){

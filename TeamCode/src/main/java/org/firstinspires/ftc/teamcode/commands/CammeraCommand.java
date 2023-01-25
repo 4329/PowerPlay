@@ -86,7 +86,7 @@ public class CammeraCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         if (interrupted) {
-            CommandScheduler.getInstance().schedule(new SequentialCommandGroup(driveForwardsCommand));
+            CommandScheduler.getInstance().schedule(new SequentialCommandGroup(driveRightStrafeCommand, driveForwardsCommand));
         }
         cameraSubsystem.cameraDeactivate();
     }
