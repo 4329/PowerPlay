@@ -9,12 +9,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.commands.CammeraCommand;
 import org.firstinspires.ftc.teamcode.commands.DriveDistanceCommand;
 import org.firstinspires.ftc.teamcode.commands.DriveStrafeDistanceCommand;
+import org.firstinspires.ftc.teamcode.commands.GrabberCommand;
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberServoSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.TelemetryUpdateSubsystem;
 
-@Autonomous(name = "Camera", group = "2")
+@Autonomous(name = "CameraAuto", group = "2")
 public class RedBasicCamera extends CommandOpMode {
 
     TelemetryUpdateSubsystem telemetryUpdateSubsystem;
@@ -22,6 +23,7 @@ public class RedBasicCamera extends CommandOpMode {
     CammeraCommand cammeraCommand;
     MecanumDriveSubsystem mecanumDriveSubsystem;
     GrabberServoSubsystem grabberServoSubsystem;
+    GrabberCommand grabberCommand;
 
     private static final String TAG = "10868";
 
@@ -32,7 +34,8 @@ public class RedBasicCamera extends CommandOpMode {
         telemetryUpdateSubsystem = new TelemetryUpdateSubsystem(telemetry);
         cammeraCommand = new CammeraCommand(cameraSubsystem, telemetry, mecanumDriveSubsystem);
         grabberServoSubsystem = new GrabberServoSubsystem(hardwareMap, telemetry);
-        schedule(cammeraCommand.withTimeout(10));
+        grabberCommand = new GrabberCommand(grabberServoSubsystem);
+        schedule(grabberCommand, cammeraCommand.withTimeout(10));
         register(telemetryUpdateSubsystem);
     }
 }
