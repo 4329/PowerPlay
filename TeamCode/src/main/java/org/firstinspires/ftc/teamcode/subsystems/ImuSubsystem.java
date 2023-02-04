@@ -40,7 +40,7 @@ public class ImuSubsystem extends SubsystemBase {
     }
 
     public double Position(){
-        return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+        return orientation.getYaw(AngleUnit.DEGREES);
     }
 
 }
