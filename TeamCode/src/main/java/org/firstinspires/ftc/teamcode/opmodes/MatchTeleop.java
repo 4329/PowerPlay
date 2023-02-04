@@ -22,11 +22,11 @@ import org.firstinspires.ftc.teamcode.subsystems.TelemetryUpdateSubsystem;
 public class MatchTeleop extends CommandOpMode {
     // FtcDashboard dashboard = FtcDashboard.getInstance();
 
-    GamepadEx driver, operator;
-    MecanumDriveSubsystem mecanumDriveSubsystem;
-    GrabberSubsystem grabberSubsystem;
-    GrabberServoSubsystem garbberServoSubsystem;
-    TelemetryUpdateSubsystem telemetryUpdateSubsystem;
+    private GamepadEx driver, operator;
+    private MecanumDriveSubsystem mecanumDriveSubsystem;
+    private GrabberSubsystem grabberSubsystem;
+    private GrabberServoSubsystem garbberServoSubsystem;
+    private TelemetryUpdateSubsystem telemetryUpdateSubsystem;
 
     @Override
     public void initialize() {

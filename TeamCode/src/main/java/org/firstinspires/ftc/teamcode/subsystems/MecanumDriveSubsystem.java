@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
@@ -9,23 +10,28 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class MecanumDriveSubsystem extends SubsystemBase {
 
     private MecanumDrive drive;
     private GamepadEx driverOp;
     private Telemetry telemetry;
-//    private IMUSystem imuSystem;
+    private ImuSubsystem imuSystem;
     private MecanumDrive mecanumDrive;
     private MecanumDriveSubsystem mecanumDriveSubsystem;
     private Motor leftBackDrive;
     private Motor rightBackDrive;
     private Motor rightFrontDrive;
     private Motor leftFrontDrive;
+    private PIDController turnPID;
+    private int TPower;
+    double turn;
+    double imuPosition;
 
     public MecanumDriveSubsystem(HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
-//        this.imuSystem =imuSystem;
+        this.imuSystem = imuSystem;
         leftFrontDrive = new Motor(hardwareMap, "LeftFrontDrive");
         rightFrontDrive = new Motor(hardwareMap, "RightFrontDrive");
         leftBackDrive = new Motor(hardwareMap, "LeftBackDrive");
@@ -47,11 +53,23 @@ public class MecanumDriveSubsystem extends SubsystemBase {
         rightBackDrive.motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         mecanumDrive = new MecanumDrive(leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive);
+        turnPID = new PIDController(1,0,0);
+        turnPID.setTolerance(15);
     }
 
 
     public void Drive(double forward, double turn, double strafe){
             mecanumDrive.driveRobotCentric(-strafe, forward, -turn, false);
+    }
+
+    public void turnLeftPower(){
+        if (imuPosition < -45) {
+            leftFrontDrive.set(TPower);
+        }
+    }
+
+    public void turnRightPower(){
+
     }
 
     public double getleftBackDrivePosition (){
@@ -63,6 +81,7 @@ public class MecanumDriveSubsystem extends SubsystemBase {
     }
 
     public void periodic() {
+//        double TPower = turnPID.calculate(imuPosition, turn);
 //        telemetry.addData("encoder distance", getEncoderPosition());
     }
 }

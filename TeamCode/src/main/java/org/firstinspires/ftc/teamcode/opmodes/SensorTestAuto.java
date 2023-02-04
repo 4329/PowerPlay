@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.commands.DistanceCommand;
 import org.firstinspires.ftc.teamcode.commands.ImuCommand;
 import org.firstinspires.ftc.teamcode.subsystems.DistanceSensorSub;
 import org.firstinspires.ftc.teamcode.subsystems.ImuSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.TelemetryUpdateSubsystem;
 
 @Autonomous (name = "SensorTestAuto", group = "2")
@@ -17,14 +18,16 @@ public class SensorTestAuto extends CommandOpMode {
     private DistanceCommand distanceCommand;
     private ImuCommand imuCommand;
     private ImuSubsystem imuSubsystem;
+    private MecanumDriveSubsystem mecanumDriveSubsystem;
 
     @Override
     public void initialize(){
+        mecanumDriveSubsystem = new MecanumDriveSubsystem(hardwareMap, telemetry);
         telemetryUpdateSubsystem = new TelemetryUpdateSubsystem(telemetry);
         distanceSensorSub = new DistanceSensorSub(hardwareMap, telemetry);
         distanceCommand = new DistanceCommand(distanceSensorSub);
         imuSubsystem = new ImuSubsystem(hardwareMap, telemetry);
-        imuCommand = new ImuCommand(imuSubsystem);
+        imuCommand = new ImuCommand(imuSubsystem, mecanumDriveSubsystem, -45);
         schedule(new ParallelCommandGroup(distanceCommand, imuCommand));
         register(telemetryUpdateSubsystem);
     }
