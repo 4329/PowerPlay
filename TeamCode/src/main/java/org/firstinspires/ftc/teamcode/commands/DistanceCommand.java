@@ -8,8 +8,8 @@ public class DistanceCommand extends CommandBase {
     private DistanceSensorSub distanceSensorSub;
 
 
-    public DistanceCommand(DistanceSensorSub DistanceSensorSub){
-        this.distanceSensorSub = DistanceSensorSub;
+    public DistanceCommand(DistanceSensorSub distanceSensorSub){
+        this.distanceSensorSub = distanceSensorSub;
         addRequirements(distanceSensorSub);
     }
 

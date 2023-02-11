@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import static org.firstinspires.ftc.robotcore.external.tfod.TfodCurrentGame.LABELS;
-
 import android.util.Log;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
@@ -45,7 +43,7 @@ public class CameraSubsystem extends SubsystemBase {
             "Z3"
     };
 
-    public enum DriveDirection {
+    public enum Zones {
         Unknown,
         One,
         Two,
@@ -105,7 +103,7 @@ public class CameraSubsystem extends SubsystemBase {
         initTfod();
     }
 
-    public void cameraActicate() {
+    public void cameraActivate() {
         tfObjectDetector.activate();
     }
 
@@ -121,7 +119,7 @@ public class CameraSubsystem extends SubsystemBase {
         }
         if (updatedRecognitions != null) {
             this.telemetry.addData("# Objects Detected", updatedRecognitions.size());
-            for (Recognition recognition : removeObjects(updatedRecognitions)) {
+            for (Recognition recognition : removeNoiseObjects(updatedRecognitions)) {
                 telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
                 telemetry.addData("left", recognition.getLeft());
                 telemetry.addData("with", recognition.getWidth());
@@ -131,7 +129,7 @@ public class CameraSubsystem extends SubsystemBase {
         }
     }
 
-    public List<Recognition> removeObjects(List<Recognition> uncleanReconditions) {
+    public List<Recognition> removeNoiseObjects(List<Recognition> uncleanReconditions) {
         List<Recognition> cleanRecognitions = new ArrayList<Recognition>();
         if (uncleanReconditions != null) {
             for (Recognition recognition : uncleanReconditions) {
@@ -163,23 +161,23 @@ public class CameraSubsystem extends SubsystemBase {
 //        return DriveDirection.Unknown;
 //    }
 
-    public DriveDirection directionChooser() {
-        List<Recognition> cleanedUpList = removeObjects(updatedRecognitions);
+    public Zones getZoneDetected() {
+        List<Recognition> cleanedUpList = removeNoiseObjects(updatedRecognitions);
         if (cleanedUpList != null && cleanedUpList.size() > 0) {
             Recognition recognition = cleanedUpList.get(0);
             Log.i(TAG, "directionChooser: getLabel=" + recognition.getLabel());
             if (recognition.getLabel() == "Z1") {
-                telemetry.addLine("one dd is called");
-                return DriveDirection.One;
+                telemetry.addLine("one zone is called");
+                return Zones.One;
             } else if (recognition.getLabel() == "Z2") {
-                telemetry.addLine("two dd is called");
-                return DriveDirection.Two;
+                telemetry.addLine("two zone is called");
+                return Zones.Two;
             } else if (recognition.getLabel() == "Z3") {
-                telemetry.addLine("three dd is called");
-                return DriveDirection.Three;
+                telemetry.addLine("three zone is called");
+                return Zones.Three;
             }
         }
-        return DriveDirection.Unknown;
+        return Zones.Unknown;
     }
 
     @Override

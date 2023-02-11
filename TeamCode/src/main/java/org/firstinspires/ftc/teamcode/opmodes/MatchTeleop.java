@@ -8,12 +8,12 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.ArmMotorCommand;
-import org.firstinspires.ftc.teamcode.commands.GrabberCommand;
 import org.firstinspires.ftc.teamcode.commands.MecanumDpadCommand;
 import org.firstinspires.ftc.teamcode.commands.MecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberServoSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ImuSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.TelemetryUpdateSubsystem;
 
@@ -27,12 +27,13 @@ public class MatchTeleop extends CommandOpMode {
     private GrabberSubsystem grabberSubsystem;
     private GrabberServoSubsystem garbberServoSubsystem;
     private TelemetryUpdateSubsystem telemetryUpdateSubsystem;
+    private ImuSubsystem imuSubsystem;
 
     @Override
     public void initialize() {
         driver = new GamepadEx(gamepad1);
         operator = new GamepadEx(gamepad2);
-        mecanumDriveSubsystem = new MecanumDriveSubsystem(hardwareMap, telemetry);
+        mecanumDriveSubsystem = new MecanumDriveSubsystem(hardwareMap, telemetry, imuSubsystem);
         ArmSubsystem armSubsystem = new ArmSubsystem(hardwareMap, telemetry);
         GrabberSubsystem grabberSubsystem = new GrabberSubsystem(hardwareMap);
         GrabberServoSubsystem grabberServoSubsystem = new GrabberServoSubsystem(hardwareMap, telemetry);

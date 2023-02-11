@@ -14,7 +14,7 @@ public class CameraTest extends CommandOpMode {
     public void initialize() {
         CameraSubsystem cameraSubsystem = new CameraSubsystem(hardwareMap,telemetry);
         TelemetryUpdateSubsystem telemetryUpdateSubsystem = new TelemetryUpdateSubsystem(telemetry);
-        schedule(new InstantCommand(cameraSubsystem::cameraActicate));
+        schedule(new InstantCommand(cameraSubsystem::cameraActivate));
         register(telemetryUpdateSubsystem, cameraSubsystem);
     }
 

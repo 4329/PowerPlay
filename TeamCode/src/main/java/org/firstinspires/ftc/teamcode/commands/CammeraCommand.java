@@ -4,14 +4,12 @@ import android.util.Log;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.command.CommandScheduler;
-import com.arcrobotics.ftclib.command.ScheduleCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.util.Timing;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 
 public class CammeraCommand extends CommandBase {
@@ -31,7 +29,7 @@ public class CammeraCommand extends CommandBase {
         cameraSubsystem = camerasubsystem;
         this.mecanumDriveSubsystem = mecanumDriveSubsystem;
         this.telemetry = telemetry;
-        cameraSubsystem.cameraActicate();
+        cameraSubsystem.cameraActivate();
         driveRightStrafeCommand =
                 new DriveStrafeDistanceCommand(mecanumDriveSubsystem,
                         DriveStrafeDistanceCommand.Direction.RIGHT,27, telemetry);
@@ -54,8 +52,8 @@ public class CammeraCommand extends CommandBase {
     public void execute() {
         Log.i(TAG, "schedule: At Start");
         cameraSubsystem.detectObjects();
-        cameraSubsystem.directionChooser();
-        switch (cameraSubsystem.directionChooser()) {
+        cameraSubsystem.getZoneDetected();
+        switch (cameraSubsystem.getZoneDetected()) {
             case One:
                 telemetry.addLine("one is scheduled in command");
                 Log.i(TAG, "schedule: One");

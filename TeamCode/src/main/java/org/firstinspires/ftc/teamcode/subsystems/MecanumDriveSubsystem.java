@@ -6,32 +6,27 @@ import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class MecanumDriveSubsystem extends SubsystemBase {
 
     private MecanumDrive drive;
     private GamepadEx driverOp;
     private Telemetry telemetry;
-    private ImuSubsystem imuSystem;
+    private ImuSubsystem imuSubsystem;
     private MecanumDrive mecanumDrive;
-    private MecanumDriveSubsystem mecanumDriveSubsystem;
     private Motor leftBackDrive;
     private Motor rightBackDrive;
     private Motor rightFrontDrive;
     private Motor leftFrontDrive;
     private PIDController turnPID;
-    private int TPower;
-    double turn;
-    double imuPosition;
 
-    public MecanumDriveSubsystem(HardwareMap hardwareMap, Telemetry telemetry) {
+
+    public MecanumDriveSubsystem(HardwareMap hardwareMap, Telemetry telemetry, ImuSubsystem imuSubsystem) {
         this.telemetry = telemetry;
-        this.imuSystem = imuSystem;
+        this.imuSubsystem = imuSubsystem;
         leftFrontDrive = new Motor(hardwareMap, "LeftFrontDrive");
         rightFrontDrive = new Motor(hardwareMap, "RightFrontDrive");
         leftBackDrive = new Motor(hardwareMap, "LeftBackDrive");
@@ -57,20 +52,27 @@ public class MecanumDriveSubsystem extends SubsystemBase {
         turnPID.setTolerance(15);
     }
 
+    public enum DriveDegrees {
+        RightFortyFive,
+        LeftFortyFive,
+        RightOneHundred35,
+        LeftOneHundred35,
+        RightNinety,
+        LeftNinety
+    }
+
+    public enum TurnDirection{
+        Right,
+        Left
+    }
+
+
+
 
     public void Drive(double forward, double turn, double strafe){
             mecanumDrive.driveRobotCentric(-strafe, forward, -turn, false);
     }
 
-    public void turnLeftPower(){
-        if (imuPosition < -45) {
-            leftFrontDrive.set(TPower);
-        }
-    }
-
-    public void turnRightPower(){
-
-    }
 
     public double getleftBackDrivePosition (){
         return leftBackDrive.getCurrentPosition();
@@ -80,9 +82,9 @@ public class MecanumDriveSubsystem extends SubsystemBase {
         return leftBackDrive.getCurrentPosition();
     }
 
-    public void periodic() {
+//    public void periodic() {
 //        double TPower = turnPID.calculate(imuPosition, turn);
 //        telemetry.addData("encoder distance", getEncoderPosition());
-    }
+//    }
 }
 //I learned Lower count case and upper count case

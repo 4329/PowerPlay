@@ -59,6 +59,5 @@ public class DriveDistanceCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         mecanumDriveSubsystem.Drive(0,0,0);
-
     }
 }

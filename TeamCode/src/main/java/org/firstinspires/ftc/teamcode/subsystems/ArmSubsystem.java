@@ -16,7 +16,7 @@ public class ArmSubsystem extends SubsystemBase {
     private Motor ArmMotor;
     private Telemetry telemetry;
     private TouchSensor touchsensor;
-    private static final double DISTANCEPERPULSE=(88.6-14.2)/5756;
+    private static final double DISTANCEPERPULSE=0.0093356918238994;
     private boolean isHolding=false;
     private int holdingPosition=0;
     private double holdingDistance=5;
@@ -96,8 +96,16 @@ public class ArmSubsystem extends SubsystemBase {
         // ArmMotor.setTargetPosition(holdingPosition);
         ArmMotor.setTargetDistance(holdingDistance);
     }
-    private void  setRunning(){
+    private void setRunning(){
         ArmMotor.setRunMode(Motor.RunMode.RawPower);
+    }
+
+    public void goToInches(double TargetInches){
+        ArmMotor.setTargetDistance(TargetInches);
+    }
+
+    public boolean atTargetPosition(){
+        return ArmMotor.atTargetPosition();
     }
 
 }

@@ -36,8 +36,8 @@ public class DistanceSensorSub extends SubsystemBase {
         telemetry.addData("did time out", Boolean.toString(sensorTimeOfFlight.didTimeoutOccur()));
     }
 
-    @Override
-    public void periodic() {
-        telemetry.update();
-    }
+//    @Override
+//    public void periodic() {
+//
+//    }
 }

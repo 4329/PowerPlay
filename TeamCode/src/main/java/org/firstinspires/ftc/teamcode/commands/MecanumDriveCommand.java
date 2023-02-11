@@ -16,6 +16,7 @@ public class MecanumDriveCommand extends CommandBase {
     private DoubleSupplier strafeDrive;
     private BooleanSupplier slowMotion;
     private Telemetry telemetry;
+    private static double SLOW_MOTION_DIVISOR=3.0;
 
     public MecanumDriveCommand(MecanumDriveSubsystem mecanumDriveSubsystem,
                                DoubleSupplier forwardDrive,
@@ -36,9 +37,9 @@ public class MecanumDriveCommand extends CommandBase {
     public void execute() {
         if (!slowMotion.getAsBoolean()) {
             mecanumDriveSubsystem.Drive(
-                    forwardDrive.getAsDouble()/3,
-                    rotateDrive.getAsDouble()/3,
-                    strafeDrive.getAsDouble()/3);
+                    forwardDrive.getAsDouble()/SLOW_MOTION_DIVISOR,
+                    rotateDrive.getAsDouble()/SLOW_MOTION_DIVISOR,
+                    strafeDrive.getAsDouble()/SLOW_MOTION_DIVISOR);
         }
         else {
             mecanumDriveSubsystem.Drive(

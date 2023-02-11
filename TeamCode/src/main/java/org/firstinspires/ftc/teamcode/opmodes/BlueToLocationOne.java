@@ -6,13 +6,16 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.commands.DriveDistanceCommand;
 import org.firstinspires.ftc.teamcode.commands.DriveStrafeDistanceCommand;
+import org.firstinspires.ftc.teamcode.subsystems.ImuSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.TelemetryUpdateSubsystem;
 
 @Autonomous(name = "Blue To Location One", group = "2")
 public class BlueToLocationOne extends CommandOpMode {
 
-    TelemetryUpdateSubsystem telemetryUpdateSubsystem;
+    private TelemetryUpdateSubsystem telemetryUpdateSubsystem;
+    private MecanumDriveSubsystem mecanumDriveSubsystem;
+    private ImuSubsystem imuSubsystem;
 
     @Override
     public void initialize() {
@@ -20,7 +23,7 @@ public class BlueToLocationOne extends CommandOpMode {
 //            DriveDistance driveDistance = new DriveDistance(mecanumDriveSubsystem,
 //                    0, 0, -0.5, 24);
 //            schedule(new SequentialCommandGroup(driveDistance.withTimeout(1500)));
-        MecanumDriveSubsystem mecanumDriveSubsystem = new MecanumDriveSubsystem(hardwareMap, telemetry);
+        mecanumDriveSubsystem = new MecanumDriveSubsystem(hardwareMap, telemetry, imuSubsystem);
 
         DriveStrafeDistanceCommand driveRightStrafeCommand =
                         new DriveStrafeDistanceCommand(mecanumDriveSubsystem,
