@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.ImuSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
 
-public class VariableDriveDistanceCommand extends CommandBase {
+public class VariableStrafeDistanceCommand extends CommandBase {
     final static String TAG = "10868";
     private MecanumDriveSubsystem mecanumDriveSubsystem;
     private ImuSubsystem imuSubsystem;
@@ -25,14 +25,15 @@ public class VariableDriveDistanceCommand extends CommandBase {
     static double diameterGobildaMM = 96;
     static double wheelDiameterInches = diameterGobildaMM / 25.4;
     static double wheelCircInches = wheelDiameterInches * Math.PI;
+    final static double DrivePrecentIncrease = 1;
     private PIDController DistancePID;
     private PIDController HeadingPID;
     private PIDController StrafeDistancePID;
     private double initialHeading;
     private double outputHeading;
 
-    public VariableDriveDistanceCommand(MecanumDriveSubsystem mecanumDriveSubsystem, ImuSubsystem imuSubsystem,
-                                        Telemetry telemetry, double forward, double turn, double strafe, double distanceInches) {
+    public VariableStrafeDistanceCommand(MecanumDriveSubsystem mecanumDriveSubsystem, ImuSubsystem imuSubsystem,
+                                         Telemetry telemetry, double forward, double turn, double strafe, double distanceInches) {
         this.Forward = forward;
         this.Turn = turn;
         this.Strafe = strafe;
@@ -50,23 +51,23 @@ public class VariableDriveDistanceCommand extends CommandBase {
     @Override
     public void initialize() {
         startPosition = mecanumDriveSubsystem.getleftBackDrivePosition();
-        DistancePID = new PIDController(0.1, 0, 0);
+        DistancePID = new PIDController(0, 0, 0);
         DistancePID.setTolerance(0.1);
-        StrafeDistancePID = new PIDController(0.03, 0, 0);
-        StrafeDistancePID.setTolerance(0.4);
-        HeadingPID = new PIDController(0,0,0);
-        HeadingPID.setTolerance(0.5);
+        StrafeDistancePID = new PIDController(0.1, 0, 0);
+        StrafeDistancePID.setTolerance(0.1);
+        HeadingPID = new PIDController(0.1,0,0);
+        HeadingPID.setTolerance(0.2);
         initialHeading = imuSubsystem.Heading();
     }
 
     @Override
     public void execute() {
         double output = DistancePID.calculate(distanceTraveled2(), DistanceInches);
-        double outputStrafe = StrafeDistancePID.calculate(distanceTraveled2(), DistanceInches);
+        double outputStrafe = StrafeDistancePID.calculate(distanceTraveled2(), (DistanceInches * (1.212121212121212)));
+//        double outputStrafe = StrafeDistancePID.calculate(distanceTraveled2(), DistanceInches + (DistanceInches * DrivePrecentIncrease));
         outputHeading = HeadingPID.calculate(imuSubsystem.Heading(), initialHeading);
         mecanumDriveSubsystem.Drive(output * -Forward, outputHeading * -Turn, outputStrafe * Strafe);
         Telemetry.addLine(toString());
-        Log.i(TAG, this.getName() + "toString" + toString());
     }
 
     @Override
@@ -96,7 +97,7 @@ public class VariableDriveDistanceCommand extends CommandBase {
         Log.i(TAG, this.getName() + "-isFinished: startPosition=" + startPosition);
         Log.i(TAG, this.getName() + "-isFinished: distance=" + distanceTraveled2());
         Log.i(TAG, this.getName() + "- isFinished: getLeftBackDrivePosition=" + mecanumDriveSubsystem.getleftBackDrivePosition());
-        return DistancePID.atSetPoint() && HeadingPID.atSetPoint();
+        return HeadingPID.atSetPoint() && StrafeDistancePID.atSetPoint();
 //        return distanceTraveled2() >= DistanceInches;
     }
 

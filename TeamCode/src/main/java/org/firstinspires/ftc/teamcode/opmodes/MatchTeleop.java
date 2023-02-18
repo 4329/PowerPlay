@@ -103,7 +103,8 @@ public class MatchTeleop extends CommandOpMode {
 
         ArmMotorCommand armMotorCommand = new ArmMotorCommand(armSubsystem,
                 () -> operator.getLeftY(),
-                () -> operator.getButton(GamepadKeys.Button.RIGHT_BUMPER));
+                () -> operator.getButton(GamepadKeys.Button.RIGHT_BUMPER),
+                telemetry);
 
 //        GrabberCommand grabberCommand = new GrabberCommand(grabberSubsystem,
 //                () -> operator.getRightY());
