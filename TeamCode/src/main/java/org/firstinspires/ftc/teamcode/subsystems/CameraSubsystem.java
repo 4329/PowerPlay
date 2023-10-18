@@ -9,8 +9,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+//import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+//import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
@@ -52,7 +52,7 @@ public class CameraSubsystem extends SubsystemBase {
         Three
     }
 
-    private VuforiaLocalizer vuforia;
+    //private VuforiaLocalizer vuforia;
     private TFObjectDetector tfObjectDetector;
     private Telemetry telemetry;
     private HardwareMap hardwareMap;
@@ -65,7 +65,7 @@ public class CameraSubsystem extends SubsystemBase {
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
          */
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+      /*  VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
@@ -73,7 +73,7 @@ public class CameraSubsystem extends SubsystemBase {
 
         //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
-
+*/
     }
 
     /**
@@ -82,7 +82,7 @@ public class CameraSubsystem extends SubsystemBase {
     private void initTfod() {
         int tfodMonitorViewId = this.hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", this.hardwareMap.appContext.getPackageName());
-        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+  /*      TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
         tfodParameters.minResultConfidence = 0.25f;
         tfodParameters.isModelTensorFlow2 = true;
         tfodParameters.inputSize = 300;
@@ -96,7 +96,7 @@ public class CameraSubsystem extends SubsystemBase {
 //        tfObjectDetector.loadModelFromAsset(TFOD_MODEL_ASSET_CUSTOM, CustomLabeles);
         tfObjectDetector.loadModelFromFile(TFOD_MODEL_FILE, CustomLabeles);
         if (tfObjectDetector == null) Log.e("ROBOT", "initTfod: tfObjectDetector is null");
-        else Log.d("ROBOT", "initTfod: tfObjectDetector is NOT null");
+        else Log.d("ROBOT", "initTfod: tfObjectDetector is NOT null");*/
     }
 
 
